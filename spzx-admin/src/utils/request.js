@@ -41,11 +41,13 @@ const service = axios.create({
 })
 
 // 拦截请求
+// 请求的拦截器
 service.interceptors.request.use(
   config => {
-    const { authorization } = useApp()
+    const { authorization } = useApp()  // 通过解构赋值，获得pinia app中获取authorization的值
     if (authorization) {
-      config.headers.Authorization = `Bearer ${authorization.token}`
+        // 设置header中的token
+      config.headers.token = `${authorization.token}`
     }
     return config
   },
@@ -56,6 +58,7 @@ service.interceptors.request.use(
 )
 
 // 拦截响应
+// 响应的拦截器
 service.interceptors.response.use(
   // 响应成功进入第1个函数，该函数的参数是响应对象
   response => {
@@ -87,6 +90,7 @@ service.interceptors.response.use(
         // 代码不要往后执行了
         return Promise.reject(error)
       }
+      
       // 如果有refresh_token，则请求获取新的 token
       try {
         const res = await axios({

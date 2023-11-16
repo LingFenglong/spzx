@@ -23,7 +23,7 @@ const COLLAPSE = 'VEA-COLLAPSE'
 export const useApp = defineStore('app', {
   state: () => ({
     title: 'Vue3 Element Admin',
-    authorization: getItem(TOKEN),
+    authorization: getItem(TOKEN),  // 从localStorage中获取存储的token
     sidebar: {
       collapse: getItem(COLLAPSE),
     },

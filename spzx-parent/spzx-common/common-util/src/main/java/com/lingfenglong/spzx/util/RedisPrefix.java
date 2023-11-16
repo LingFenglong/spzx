@@ -1,4 +1,4 @@
-package com.lingfenglong.spzx.common;
+package com.lingfenglong.spzx.util;
 
 public class RedisPrefix {
     public static final String USER_LOGIN = "user:login:";

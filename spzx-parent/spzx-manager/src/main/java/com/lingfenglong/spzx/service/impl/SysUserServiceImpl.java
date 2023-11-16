@@ -1,13 +1,13 @@
 package com.lingfenglong.spzx.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.lingfenglong.spzx.common.RedisPrefix;
+import com.lingfenglong.spzx.util.AuthContextUtil;
+import com.lingfenglong.spzx.util.RedisPrefix;
 import com.lingfenglong.spzx.common.exception.SysUserException;
 import com.lingfenglong.spzx.mapper.SysUserMapper;
 import com.lingfenglong.spzx.model.dto.system.LoginDto;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
-import com.lingfenglong.spzx.model.vo.h5.UserInfoVo;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
 import com.lingfenglong.spzx.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,10 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public LoginVo login(LoginDto loginDto) {
-        // 获取验证码 删除验证码
+        // 获取验证码
         String captcha = loginDto.getCaptcha();
         String codeKey = loginDto.getCodeKey();
         String redisCaptcha = redisTemplate.opsForValue().get(RedisPrefix.VALIDATE_CODE + codeKey);
-        redisTemplate.delete(RedisPrefix.VALIDATE_CODE + codeKey);
 
         // 未输入验证码、redis无验证码（过期）、验证码错误 --> 刷新验证码，抛出异常
         if (!StringUtils.hasText(captcha) || !StringUtils.hasText(redisCaptcha) || !captcha.equalsIgnoreCase(redisCaptcha)) {
@@ -65,10 +64,11 @@ public class SysUserServiceImpl implements SysUserService {
             throw new SysUserException("用户名或密码错误", SysUserResultCode.LOGIN_ERROR);
         }
 
-        // 正确 登录成功 生成token存入redis
+        // 正确 登录成功 生成token存入redis 删除验证码
         String sysUserInfo = JSON.toJSONString(sysUser);
         String token = UUID.randomUUID().toString().replaceAll("-", "");
-        redisTemplate.opsForValue().set(RedisPrefix.USER_LOGIN + token, sysUserInfo, 7, TimeUnit.DAYS);
+        redisTemplate.opsForValue().set(RedisPrefix.USER_LOGIN + token, sysUserInfo, 30, TimeUnit.MINUTES);
+        redisTemplate.delete(RedisPrefix.VALIDATE_CODE + codeKey);
 
         // 返回结果 LoginVo
         LoginVo loginVo = new LoginVo();
@@ -79,10 +79,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public UserInfoVo getUserInfo(String token) {
-        // 直接从redis中获取用户的信息（json 格式）
-        String json = redisTemplate.opsForValue().get(RedisPrefix.USER_LOGIN + token);
-        return JSON.parseObject(json, UserInfoVo.class);
+    public SysUser getUserInfo(String token) {
+        //// 直接从redis中获取用户的信息（json 格式）
+        //String json = redisTemplate.opsForValue().get(RedisPrefix.USER_LOGIN + token);
+        //return JSON.parseObject(json, SysUser.class);
+
+        // 直接从ThreadLocal中获取
+        return AuthContextUtil.get();
     }
 
     @Override

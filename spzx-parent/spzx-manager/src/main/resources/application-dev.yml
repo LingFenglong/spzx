@@ -10,7 +10,19 @@ spring:
   data:
     redis:
       url: redis://147258369@192.168.144.132:6379
-
 mybatis:
   mapper-locations: classpath:/com/lingfenglong/spzx/model/entity/*/*.xml
   config-location: classpath:/mybatis-config.xml
+logging:
+  level:
+    web: trace
+
+spzx:
+  auth:
+    no-auth-url:
+      - /doc.html
+      - /doc.html#/**
+      - /webjars/**
+      - /v3/**
+      - /admin/system/index/login
+      - /admin/system/index/generateValidateCode

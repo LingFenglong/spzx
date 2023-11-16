@@ -5,7 +5,6 @@ import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
-import com.lingfenglong.spzx.model.vo.h5.UserInfoVo;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
 import com.lingfenglong.spzx.model.vo.system.ValidateCodeVo;
 import com.lingfenglong.spzx.service.SysUserService;
@@ -43,8 +42,8 @@ public class IndexController {
 
     @Operation(summary = "获取用户信息")
     @GetMapping("/getUserInfo")
-    public Result<UserInfoVo> getUserInfo(@RequestHeader String token) {
-        UserInfoVo userInfoVo = sysUserService.getUserInfo(token);
+    public Result<SysUser> getUserInfo(@RequestHeader String token) {
+        SysUser userInfoVo = sysUserService.getUserInfo(token);
         return Result.build(userInfoVo, CommonResultCode.SUCCESS);
     }
 

@@ -1,7 +1,7 @@
 package com.lingfenglong.spzx.service.impl;
 
 import cn.hutool.captcha.ShearCaptcha;
-import com.lingfenglong.spzx.common.RedisPrefix;
+import com.lingfenglong.spzx.util.RedisPrefix;
 import com.lingfenglong.spzx.model.vo.system.ValidateCodeVo;
 import com.lingfenglong.spzx.service.ValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;

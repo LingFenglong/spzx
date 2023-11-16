@@ -69,11 +69,12 @@
   </el-dropdown>
 </template>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserinfo } from '@/components/Avatar/hooks/useUserinfo'
 import LockModal from './LockModal.vue'
 import { useApp } from '@/pinia/modules/app'
+import { Logout } from '@/api/login'
 
 export default defineComponent({
   components: {
@@ -81,14 +82,22 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-
     const { userinfo } = useUserinfo()
+    const { Proxy: ctx } = getCurrentInstance()
 
     // 退出
-    const logout = () => {
-      // 清除token
-      useApp().clearToken()
-      router.push('/login')
+    const logout = async () => {
+      // 请求后端登出
+      const { code, message } = await Logout()
+      if (code === 200) {
+        // 请求成功
+        // 清除token
+        useApp().clearToken() 
+        router.push('/login')
+      } else {
+        // 错误信息
+        ctx.$message.error(message);
+      }
     }
 
     return {

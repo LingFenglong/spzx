@@ -18,8 +18,8 @@ export const useAccount = defineStore('account', {
     permissionList: [],
   }),
   actions: {
-    // 清除用户信息
-    clearUserinfo() {
+      // 清除用户信息
+      clearUserinfo() {
       this.userinfo = null
     },
     // 获取用户信息

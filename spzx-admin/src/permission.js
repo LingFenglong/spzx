@@ -35,7 +35,6 @@
 
 import { ElLoading } from 'element-plus'
 import router from '@/router'
-// import store from '@/store'
 import { TOKEN } from '@/pinia/modules/app' // TOKEN变量名
 import { nextTick } from 'vue'
 import { useApp } from './pinia/modules/app'
@@ -63,10 +62,13 @@ router.beforeEach(async to => {
     background: 'rgba(0, 0, 0, 0.7)',
   })
 
+  // 在白名单列表中，直接放行
   if (WhiteList.includes(to.name)) {
     return true
   }
+
   if (!window.localStorage[TOKEN]) {
+    // 如果localStorage中没有TOKEN，返回登录的路由对象
     return {
       name: 'login',
       query: {
