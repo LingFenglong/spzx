@@ -62,7 +62,22 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // 响应成功进入第1个函数，该函数的参数是响应对象
   response => {
-    return response.data
+    const result = response.data
+
+    // 401用户未登录
+    if (result.code === 401) {
+      // 注意：小写的window
+      const redirect = encodeURIComponent(window.location.href) // 当前Url
+      router.push({
+        path: '/login',
+        query: {
+          redirect
+        }
+      })
+      return Promise.reject(new Error(result.message) || "用户登录异常")
+    }
+
+    return result
   },
   // 响应失败进入第2个函数，该函数的参数是错误对象
   async error => {

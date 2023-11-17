@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.mapper.SysRoleMapper">
+
+    <resultMap id="SysRoleMap" type="com.lingfenglong.spzx.model.entity.system.SysRole" autoMapping="true">
+        <id property="id" column="id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleCode" column="role_code" />
+        <result property="description" column="description" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="isDeleted" column="is_deleted" />
+    </resultMap>
+
+    <sql id="columns">
+        id, role_name, role_code, description, create_time, update_time, is_deleted
+    </sql>
+
+    <!-- 通过角色名分页模糊查询 -->
+    <select id="findSysRolePage" resultMap="SysRoleMap">
+        select <include refid="columns"/>
+        from db_spzx.sys_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%', #{roleName}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
