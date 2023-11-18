@@ -7,6 +7,7 @@ import com.lingfenglong.spzx.model.dto.system.SysRoleDto;
 import com.lingfenglong.spzx.model.entity.system.SysRole;
 import com.lingfenglong.spzx.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,21 @@ public class SysRoleServiceImpl implements SysRoleService {
         PageHelper.startPage(pageNum, pageSize);
         List<SysRole> sysRoleList = sysRoleMapper.findSysRolePage(sysRoleDto);
         return new PageInfo<>(sysRoleList);
+    }
+
+    @Override
+    public void save(SysRole sysRole) {
+        sysRoleMapper.save(sysRole);
+    }
+
+    @Override
+    public void remove(Long roleId) {
+        sysRoleMapper.remove(roleId);
+    }
+
+    @Override
+    public void update(SysRole sysRole) {
+        sysRoleMapper.update(sysRole);
     }
 
     @Autowired

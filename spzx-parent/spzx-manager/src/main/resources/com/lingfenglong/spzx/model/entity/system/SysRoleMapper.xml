@@ -18,6 +18,36 @@
         id, role_name, role_code, description, create_time, update_time, is_deleted
     </sql>
 
+    <!-- 保存系统角色 -->
+    <insert id="save">
+        insert into db_spzx.sys_role(role_name, role_code, description)
+        values (#{roleName}, #{roleCode}, #{description})
+    </insert>
+
+    <!-- 修改系统角色 -->
+    <update id="update">
+        update db_spzx.sys_role
+        set
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                role_code = #{roleCode},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            update_time = now()
+        where id = #{id}
+    </update>
+
+    <!-- 删除系统角色 -->
+    <delete id="remove">
+        update sys_role
+        set is_deleted = 1
+        where id = #{roleId}
+    </delete>
+
     <!-- 通过角色名分页模糊查询 -->
     <select id="findSysRolePage" resultMap="SysRoleMap">
         select <include refid="columns"/>
@@ -26,6 +56,7 @@
             <if test="roleName != null and roleName != ''">
                 and role_name like concat('%', #{roleName}, '%')
             </if>
+            and is_deleted = 0
         </where>
     </select>
 </mapper>

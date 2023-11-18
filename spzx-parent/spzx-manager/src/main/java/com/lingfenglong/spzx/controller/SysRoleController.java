@@ -19,14 +19,35 @@ public class SysRoleController {
     private SysRoleService sysRoleService;
 
     @Operation(summary = "分页查询系统角色")
-    @PostMapping("/findSysRolePage")
+    @PostMapping("/findPage/{pageNum}/{pageSize}")
     public Result<PageInfo<SysRole>> findSysRolePage(
-            @RequestParam("pageNum") Integer pageNum,
-            @RequestParam("pageSize") Integer pageSize,
+            @PathVariable("pageNum") Integer pageNum,
+            @PathVariable("pageSize") Integer pageSize,
             @RequestBody SysRoleDto sysRoleDto
             ) {
         PageInfo<SysRole> page = sysRoleService.findSysRolePage(pageNum, pageSize, sysRoleDto);
         return Result.build(page, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "添加系统角色")
+    @PostMapping("/save")
+    public Result<?> save(@RequestBody SysRole sysRole) {
+        sysRoleService.save(sysRole);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "删除系统角色")
+    @GetMapping("/remove/{roleId}")
+    public Result<?> remove(@PathVariable("roleId") Long roleId) {
+        sysRoleService.remove(roleId);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "修改系统角色")
+    @PostMapping("/update")
+    public Result<?> update(@RequestBody SysRole sysRole) {
+        sysRoleService.update(sysRole);
+        return Result.build(null, CommonResultCode.SUCCESS);
     }
 
     @Autowired

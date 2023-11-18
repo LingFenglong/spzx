@@ -1,33 +1,33 @@
 import request from '@/utils/request'
+const prefix = '/admin/system/sysRole'
 
 export const SaveSysRole = (sysRole) => {
   return request({
-    url: ``,
+    url: `${prefix}/save`,
     method: 'post',
     data: sysRole
   })
 }
 
-export const RemoveSysRole = (sysRole) => {
+export const RemoveSysRole = (roleId) => {
   return request({
-    url: ``,
-    method: 'delete',
-    data: sysRole
+    url: `${prefix}/remove/${roleId}`,
+    method: 'get'
   })
 }
 
 export const UpdateSysRole = (sysRole) => {
   return request({
-    url: ``,
-    method: 'put',
+    url: `${prefix}/update`,
+    method: 'post',
     data: sysRole
   })
 }
 
 export const FindSysRolePage = (pageNum, pageSize, queryDto) => {
   return request({
-    url: ``,
-    method: 'get',
-    data: sysRole
+    url: `${prefix}/findPage/${pageNum}/${pageSize}`,
+    method: 'post',
+    data: queryDto
   })
 }
