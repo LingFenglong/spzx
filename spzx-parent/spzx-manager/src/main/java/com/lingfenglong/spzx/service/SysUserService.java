@@ -1,6 +1,8 @@
 package com.lingfenglong.spzx.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.system.LoginDto;
+import com.lingfenglong.spzx.model.dto.system.SysUserDto;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
 
@@ -10,4 +12,12 @@ public interface SysUserService {
     SysUser getUserInfo(String token);
 
     void logout(String token);
+
+    PageInfo<SysUser> findPage(Integer pageNum, Integer pageSize, SysUserDto sysUserDto);
+
+    void remove(Long userId);
+
+    void save(SysUser sysUser);
+
+    void update(SysUser sysUser);
 }

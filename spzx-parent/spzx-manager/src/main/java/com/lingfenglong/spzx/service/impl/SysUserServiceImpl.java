@@ -1,6 +1,9 @@
 package com.lingfenglong.spzx.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lingfenglong.spzx.model.dto.system.SysUserDto;
 import com.lingfenglong.spzx.util.AuthContextUtil;
 import com.lingfenglong.spzx.util.RedisPrefix;
 import com.lingfenglong.spzx.common.exception.SysUserException;
@@ -15,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -92,5 +96,27 @@ public class SysUserServiceImpl implements SysUserService {
     public void logout(String token) {
         // 从 redis 删除token
         redisTemplate.delete(RedisPrefix.USER_LOGIN + token);
+    }
+
+    @Override
+    public PageInfo<SysUser> findPage(Integer pageNum, Integer pageSize, SysUserDto sysUserDto) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<SysUser> sysUserList = sysUserMapper.findPage(sysUserDto);
+        return PageInfo.of(sysUserList);
+    }
+
+    @Override
+    public void remove(Long userId) {
+        sysUserMapper.remove(userId);
+    }
+
+    @Override
+    public void save(SysUser sysUser) {
+        sysUserMapper.save(sysUser);
+    }
+
+    @Override
+    public void update(SysUser sysUser) {
+        sysUserMapper.update(sysUser);
     }
 }

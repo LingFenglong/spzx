@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class SysUserDto {
 
     @Schema(description = "搜索关键字")
-    private String keyword ;
+    private String keyword;
 
     @Schema(description = "开始时间")
-    private String createTimeBegin ;
+    private String createTimeBegin;
 
     @Schema(description = "结束时间")
     private String createTimeEnd;

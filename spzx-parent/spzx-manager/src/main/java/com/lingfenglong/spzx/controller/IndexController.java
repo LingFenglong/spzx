@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "用户接口")
+@Tag(name = "用户登录接口")
 @RestController
 @RequestMapping("/admin/system/index")
 public class IndexController {

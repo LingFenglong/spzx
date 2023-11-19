@@ -196,6 +196,8 @@ export default {
       if (code === 200) {
         sysRoleList.list = data.list
         sysRoleList.total = data.total
+      } else {
+        ElMessage.error(`请求角色数据失败，错误码${code}`)
       }
     }
 
