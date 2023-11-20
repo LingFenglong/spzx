@@ -14,7 +14,7 @@ export const SaveSysUser = (sysUser) => {
 export const RemoveSysUser = (UserId) => {
   return request({
     url: `${prefix}/${UserId}`,
-    method: 'get'
+    method: 'delete'
   })
 }
 
@@ -22,7 +22,7 @@ export const RemoveSysUser = (UserId) => {
 export const UpdateSysUser = (sysUser) => {
   return request({
     url: `${prefix}/`,
-    method: 'post',
+    method: 'put',
     data: sysUser
   })
 }

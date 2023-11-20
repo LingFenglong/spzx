@@ -19,7 +19,7 @@
     <!-- 修改用户 -->
     <update id="update">
         update db_spzx.sys_user
-        set
+        <set>
             <if test="userName != null and userName != ''">
                 username = #{userName},
             </if>
@@ -35,9 +35,8 @@
             <if test="avatar != null and avatar != ''">
                 avatar = #{avatar},
             </if>
-            <if test="description != null and description != ''">
-                description = #{description}
-            </if>
+            description = #{description},
+        </set>
         where id = #{id}
     </update>
 

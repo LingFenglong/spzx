@@ -124,8 +124,9 @@ export default {
           }
         },
         () => {}
-      ).catch(async () => {
-        ElMessage.error('错误')
+      ).catch(async (e) => {
+        ElMessage.error('错误，请查看控制台信息')
+        console.log(e);
       })
     }
 

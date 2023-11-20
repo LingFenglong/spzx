@@ -1,6 +1,7 @@
 package com.lingfenglong.spzx.config;
 
 import com.lingfenglong.spzx.interceptor.LoginAuthInterceptor;
+import com.lingfenglong.spzx.properties.MinioProperties;
 import com.lingfenglong.spzx.properties.UserAuthProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -10,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableConfigurationProperties(UserAuthProperties.class)
+@EnableConfigurationProperties({UserAuthProperties.class, MinioProperties.class})
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
     private LoginAuthInterceptor loginAuthInterceptor;

@@ -10,6 +10,10 @@ spring:
   data:
     redis:
       url: redis://147258369@192.168.144.132:6379
+  servlet:
+    multipart:
+      max-file-size: 100MB
+
 mybatis:
   mapper-locations: classpath:/com/lingfenglong/spzx/model/entity/*/*.xml
   config-location: classpath:/mybatis-config.xml
@@ -26,3 +30,12 @@ spzx:
       - /v3/**
       - /admin/system/index/login
       - /admin/system/index/generateValidateCode
+  minio:
+    endpoint: http://192.168.144.132:9000
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket: spzx-bucket
+    allowed-content-type:
+      "[image/png]": png
+      "[image/jpeg]": jpg
+      "[image/gif]": gif
