@@ -47,6 +47,17 @@
         where id = #{userId}
     </delete>
 
+    <!-- 删除用户所有的角色 -->
+    <delete id="removeAllRoles">
+        delete from db_spzx.sys_user_role
+        where user_id = #{userId}
+    </delete>
+    <!-- 为用户重新分配角色 -->
+    <insert id="assignRoles">
+        insert into db_spzx.sys_user_role(role_id, user_id, create_time, update_time)
+        values (#{roleId}, #{userId}, now(), now())
+    </insert>
+
     <!-- // 根据用户名查询用户 -->
     <!-- SysUser selectByUserName(String userName); -->
     <select id="selectByUserName" resultType="com.lingfenglong.spzx.model.entity.system.SysUser">

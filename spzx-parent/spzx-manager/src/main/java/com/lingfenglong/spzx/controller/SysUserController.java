@@ -1,10 +1,12 @@
 package com.lingfenglong.spzx.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.lingfenglong.spzx.model.dto.system.AssignRoleDto;
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
+import com.lingfenglong.spzx.model.vo.system.UserRolesVo;
 import com.lingfenglong.spzx.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,6 +46,20 @@ public class SysUserController {
     @PutMapping("/")
     public Result<?> update(@RequestBody SysUser sysUser) {
         sysUserService.update(sysUser);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "查询系统用户的角色")
+    @GetMapping("/roles/{userId}")
+    public Result<UserRolesVo> findRolesByUserId(@PathVariable("userId") Long userId) {
+        UserRolesVo userRoles = sysUserService.findRolesByUserId(userId);
+        return Result.build(userRoles, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "为系统用户分配角色")
+    @PostMapping("/roles")
+    public Result<?> assignRolesForUser(@RequestBody AssignRoleDto assignRoleDto) {
+        sysUserService.assignRolesForUser(assignRoleDto);
         return Result.build(null, CommonResultCode.SUCCESS);
     }
 

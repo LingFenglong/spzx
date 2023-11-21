@@ -3,11 +3,11 @@ package com.lingfenglong.spzx.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.mapper.SysRoleMapper;
+import com.lingfenglong.spzx.model.dto.system.AssignMenuDto;
 import com.lingfenglong.spzx.model.dto.system.SysRoleDto;
 import com.lingfenglong.spzx.model.entity.system.SysRole;
 import com.lingfenglong.spzx.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +35,16 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public void update(SysRole sysRole) {
         sysRoleMapper.update(sysRole);
+    }
+
+    @Override
+    public void removeAllMenu(Long roleId) {
+        sysRoleMapper.removeAllMenu(roleId);
+    }
+
+    @Override
+    public void assignRoleMenu(AssignMenuDto assignMenuDto) {
+        sysRoleMapper.assignRoleMenu(assignMenuDto);
     }
 
     @Autowired

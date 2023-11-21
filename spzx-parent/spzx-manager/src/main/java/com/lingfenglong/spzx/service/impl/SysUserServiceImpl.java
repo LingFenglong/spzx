@@ -3,7 +3,11 @@ package com.lingfenglong.spzx.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lingfenglong.spzx.mapper.SysRoleMapper;
+import com.lingfenglong.spzx.model.dto.system.AssignRoleDto;
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
+import com.lingfenglong.spzx.model.entity.system.SysRole;
+import com.lingfenglong.spzx.model.vo.system.UserRolesVo;
 import com.lingfenglong.spzx.util.AuthContextUtil;
 import com.lingfenglong.spzx.util.RedisPrefix;
 import com.lingfenglong.spzx.common.exception.SysUserException;
@@ -24,14 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
-    private final SysUserMapper sysUserMapper;
-    private final StringRedisTemplate redisTemplate;
-
-    @Autowired
-    public SysUserServiceImpl(SysUserMapper sysUserMapper, StringRedisTemplate redisTemplate) {
-        this.sysUserMapper = sysUserMapper;
-        this.redisTemplate = redisTemplate;
-    }
+    private SysUserMapper sysUserMapper;
+    private SysRoleMapper sysRoleMapper;
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public LoginVo login(LoginDto loginDto) {
@@ -118,5 +117,42 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void update(SysUser sysUser) {
         sysUserMapper.update(sysUser);
+    }
+
+    @Override
+    public UserRolesVo findRolesByUserId(Long userId) {
+        List<SysRole> allRoles = sysRoleMapper.findAllRoles();
+        List<Long> assigned = sysRoleMapper.findRoleIdsByUserId(userId);
+
+        UserRolesVo userRolesVo = new UserRolesVo();
+        userRolesVo.setAll(allRoles);
+        userRolesVo.setAssigned(assigned);
+        return userRolesVo;
+    }
+
+    @Override
+    public void assignRolesForUser(AssignRoleDto assignRoleDto) {
+        // 移除所有分配的角色
+        sysUserMapper.removeAllRoles(assignRoleDto.getUserId());
+        // 重新分配角色
+        assignRoleDto
+                .getRoleIdList()
+                .forEach(roleId -> sysUserMapper.assignRoles(assignRoleDto.getUserId(), roleId));
+    }
+
+
+    @Autowired
+    public void setSysUserMapper(SysUserMapper sysUserMapper) {
+        this.sysUserMapper = sysUserMapper;
+    }
+
+    @Autowired
+    public void setSysRoleMapper(SysRoleMapper sysRoleMapper) {
+        this.sysRoleMapper = sysRoleMapper;
+    }
+
+    @Autowired
+    public void setRedisTemplate(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 }

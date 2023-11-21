@@ -35,3 +35,20 @@ export const FindSysUserPage = (pageNum, pageSize, queryDto) => {
     params: queryDto
   })
 }
+
+// 查询系统用户的角色
+export const FindSysUserRoles = (userId) => {
+  return request({
+    url: `${prefix}/roles/${userId}`,
+    method: 'get',
+  })
+}
+
+// 为系统用户分配角色
+export const AssignSysUserRoles = (assignRoleDto) => {
+  return request({
+    url: `${prefix}/roles`,
+    method: 'post',
+    data: assignRoleDto
+  })
+}

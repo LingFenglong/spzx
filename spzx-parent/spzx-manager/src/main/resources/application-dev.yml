@@ -28,6 +28,7 @@ spzx:
       - /doc.html#/**
       - /webjars/**
       - /v3/**
+      - /favicon.ico
       - /admin/system/index/login
       - /admin/system/index/generateValidateCode
   minio:

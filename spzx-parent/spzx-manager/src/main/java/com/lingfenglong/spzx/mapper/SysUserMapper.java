@@ -1,6 +1,5 @@
 package com.lingfenglong.spzx.mapper;
 
-import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,4 +23,10 @@ public interface SysUserMapper {
 
     // 修改用户
     void update(SysUser sysUser);
+
+    // 删除用户所有的角色
+    void removeAllRoles(@Param("userId") Long userId);
+
+    // 为用户重新分配角色
+    void assignRoles(@Param("userId") Long userId, @Param("roleId") Long roleId);
 }

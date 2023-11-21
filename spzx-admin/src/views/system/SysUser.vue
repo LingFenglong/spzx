@@ -1,52 +1,49 @@
 <template>
   <div class="search-div">
-    <!-- 搜索表单 -->
-    <el-form label-width="70px" size="small" @keyup.enter="fetchSysUserList">
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="关键字">
-            <el-input
-              style="width: 100%"
-              placeholder="用户名"
-              v-model="sysUserDto.keyword"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="创建时间">
-            <el-date-picker
-              v-model="createTimes"
-              type="daterange"
-              range-separator="到"
-              start-placeholder="开始时间"
-              end-placeholder="结束时间"
-              format="YYYY-MM-DD"
-              value-format="YYYY-MM-DD"
-              @change="fetchSysUserList"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
+    <el-row>
+      <!-- 搜索表单 -->
+      <el-form label-width="70px" size="small" @keyup.enter="fetchSysUserList">
+        <el-row>
+          <!-- 关键字 -->
+          <el-col :span="8">
+            <el-form-item label="关键字">
+              <el-input style="width: 100%" placeholder="用户名" v-model="sysUserDto.keyword" ></el-input>
+            </el-form-item>
+          </el-col>
+          
+          <!-- 创建时间 -->
+          <el-col :span="8">
+            <el-form-item label="创建时间">
+              <el-date-picker
+                v-model="createTimes"
+                type="daterange"
+                range-separator="到"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                format="YYYY-MM-DD"
+                value-format="YYYY-MM-DD"
+                @change="fetchSysUserList"
+              />
+            </el-form-item>
+          </el-col>
 
-      <el-row style="display: flex">
-        <el-button type="primary" size="small" @click="fetchSysUserList">搜索</el-button>
-        <el-button size="small" @click="reset">重置</el-button>
-      </el-row>
-    </el-form>
+          <el-col :span="8">
+            <!-- 搜索按钮 -->
+            <el-button type="primary" size="small" @click="fetchSysUserList" style="margin-left: 12px">搜索</el-button>
+            
+            <!-- 重置按钮 -->
+            <el-button size="small" @click="reset">重置</el-button>
 
-    <!-- 添加按钮 -->
-    <div class="tools-div">
-      <el-button
-        type="success"
-        size="small"
-        @click="showAddDialog"
-      >
-        添 加
-      </el-button>
-    </div>
+            <!-- 添加按钮 -->
+            <el-button type="success" size="small" @click="showAddDialog">添 加</el-button>
+
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-row>
 
     <!--- 用户表格数据 -->
-    <el-table :data="sysUserList.list" style="width: 100%">
+    <el-table :data="sysUserList.list" style="width: 100%" height="515px">
       <el-table-column prop="userName" label="用户名" width="140" />
       <el-table-column prop="name" label="姓名" width="140" />
       <el-table-column prop="phone" label="手机" width="140" />
@@ -61,7 +58,7 @@
       <el-table-column label="操作" align="center" width="240" #default="scope">
         <el-button type="primary" size="small" @click="showUpdateDialog(scope.row)">修改</el-button>
 
-        <el-button type="warning" size="small" >分配角色</el-button>
+        <el-button type="warning" size="small" @click="showRoleAssignDialog(scope.row)">分配角色</el-button>
 
         <el-button type="danger" size="small" @click="removeSysUser(scope.row)">删除</el-button>
       </el-table-column>
@@ -76,6 +73,7 @@
       :total="sysUserList.total"
     />
 
+    <!-- 修改 和 新增 -->
     <el-dialog v-model="dialog.visable" :title="dialog.title" width="40%" @keyup.enter="updateSysUser">
       <el-form label-width="120px">
         <el-form-item label="用户名：">
@@ -114,21 +112,48 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 分配角色 -->
+    <el-dialog
+      title="分配角色"
+      v-model="roleAssignDialogVisible"
+      width="40%">
+      <el-form>
+        <el-form-item label="用户名">
+          <el-input disabled :value="sysUser.userName"/>
+        </el-form-item>
+        <el-form-item label="角色列表">
+          <el-checkbox-group v-model="roles.assigned">
+            <el-checkbox v-for="role in roles.all" :label="role.id" :key="role.id">
+              {{ role.roleName }}
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button type="primary" @click="assignUserRole">确 定</el-button>
+          <el-button @click="roleAssignDialogVisible = false">取 消</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { FindSysUserPage, SaveSysUser, RemoveSysUser, UpdateSysUser } from '@/api/SysUser'
+import { FindSysUserPage, SaveSysUser, RemoveSysUser, UpdateSysUser, FindSysUserRoles, AssignSysUserRoles } from '@/api/SysUser'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useApp } from '@/pinia/modules/app'
+import md5 from 'crypto-js/md5'
 
+// 请求头
 const headers = {
   token: useApp().authorization.token
 }
 
+// 创建时间
 const createTimes = ref([])
-
 const sysUserDto = reactive({
   keyword: '',
   createTimeBegin: computed(() => createTimes.value[0]),
@@ -145,10 +170,44 @@ let sysUser = ref({
    description: ''
 })
 
+// 更新对话框
 const dialog = reactive({
   visable: false,
   title: ''
 })
+
+// 角色列表（后端查询用户角色返回的数据）
+const roles = reactive({
+  all: [],
+  assigned: []
+})
+
+// 分配角色对话框
+const roleAssignDialogVisible = ref(false)
+
+// 分配角色 ------------------------------------------------------------------------------------------
+const showRoleAssignDialog = async (row) => {
+  sysUser.value.id = row.id
+  sysUser.value.userName = row.userName
+  const { data, code } = await FindSysUserRoles(row.id)
+  if (code !== 200) {
+    ElMessage.error('获取用户角色信息失败')
+    throw new Error('获取用户角色信息失败')
+  }
+  roles.all = data.all
+  roles.assigned = data.assigned
+  roleAssignDialogVisible.value = true
+}
+
+const assignUserRole = async () => {
+  const { code } = await AssignSysUserRoles({userId: sysUser.value.id, roleIdList: roles.assigned})
+  roleAssignDialogVisible.value = false
+  if (code === 200) {
+    ElMessage.success('分配用户角色成功')
+  } else {
+    ElMessage.error('分配用户角色失败')
+  }
+}
 
 // 头像上传 ------------------------------------------------------------------------------------------
 const handleAvatarSuccess = (response, uploadFile) => {

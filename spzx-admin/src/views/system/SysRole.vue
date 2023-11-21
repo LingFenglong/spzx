@@ -2,22 +2,22 @@
   <div class="search-div">
     <!-- 搜索表单 -->
     <el-form label-width="70px" size="small">
-      <el-form-item label="角色名称">
-        <el-input style="width: 100%" placeholder="角色名称" v-model="queryDto.roleName" @keyup.enter="fetchSysRoleList"></el-input>
-      </el-form-item>
-      <el-row style="display: flex">
-        <el-button type="primary" size="small" @click="fetchSysRoleList">搜索</el-button>
-        <el-button size="small" @click="reset">重置</el-button>
+      <el-row>
+        <el-col :span="5">
+          <el-form-item label="角色名称">
+            <el-input style="width: 100%" placeholder="角色名称" v-model="queryDto.roleName" @keyup.enter="fetchSysRoleList"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-button type="primary" size="small" @click="fetchSysRoleList" style="margin-left: 12px">搜索</el-button>
+          <el-button size="small" @click="reset">重置</el-button>
+          <el-button type="success" size="small" @click="showAddRole" >添 加</el-button>
+        </el-col>
       </el-row>
     </el-form>
 
-    <!-- 添加按钮 -->
-    <div class="tools-div">
-      <el-button type="success" size="small" @click="showAddRole">添 加</el-button>
-    </div>
-
     <!--- 角色表格数据 -->
-    <el-table :data="list" style="width: 100%">
+    <el-table :data="list" style="width: 100%" height="515px">
       <el-table-column prop="roleName" label="角色名称" width="180" />
       <el-table-column prop="roleCode" label="角色code" width="180" />
       <el-table-column prop="createTime" label="创建时间" />

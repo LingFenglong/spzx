@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.mapper.SysMenuMapper">
+
+    <sql id="columns">
+        id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
+    </sql>
+
+    <select id="findAll" resultType="com.lingfenglong.spzx.model.entity.system.SysMenu">
+        select <include refid="columns"/>
+        from db_spzx.sys_menu
+    </select>
+</mapper>

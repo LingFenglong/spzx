@@ -1,10 +1,12 @@
 package com.lingfenglong.spzx.service;
 
 import com.github.pagehelper.PageInfo;
+import com.lingfenglong.spzx.model.dto.system.AssignRoleDto;
 import com.lingfenglong.spzx.model.dto.system.LoginDto;
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
+import com.lingfenglong.spzx.model.vo.system.UserRolesVo;
 
 public interface SysUserService {
     LoginVo login(LoginDto loginDto);
@@ -20,4 +22,8 @@ public interface SysUserService {
     void save(SysUser sysUser);
 
     void update(SysUser sysUser);
+
+    UserRolesVo findRolesByUserId(Long userId);
+
+    void assignRolesForUser(AssignRoleDto assignRoleDto);
 }

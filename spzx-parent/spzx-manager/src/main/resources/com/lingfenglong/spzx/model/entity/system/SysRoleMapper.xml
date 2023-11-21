@@ -24,6 +24,15 @@
         values (#{roleName}, #{roleCode}, #{description})
     </insert>
 
+    <!-- 为一个角色分配菜单 -->
+    <insert id="assignRoleMenu">
+        insert into db_spzx.sys_role_menu(role_id, menu_id, is_half)
+        values 
+        <foreach collection="menuIdList" item="" separator=",">
+
+        </foreach>
+    </insert>
+
     <!-- 修改系统角色 -->
     <update id="update">
         update db_spzx.sys_role
@@ -40,6 +49,12 @@
             update_time = now()
         where id = #{id}
     </update>
+
+    <!-- 移除该角色的所有菜单 -->
+    <delete id="removeAllMenu">
+        delete from db_spzx.sys_role_menu
+        where role_id = #{roleID}
+    </delete>
 
     <!-- 删除系统角色 -->
     <delete id="remove">
@@ -58,5 +73,20 @@
             </if>
             and is_deleted = 0
         </where>
+    </select>
+
+    <!-- 查询当前的所有角色 -->
+    <select id="findAllRoles" resultType="com.lingfenglong.spzx.model.entity.system.SysRole">
+        select <include refid="columns"/>
+        from db_spzx.sys_role
+    </select>
+
+    <!-- 根据用户Id查询该用户所具有的角色的全部Id -->
+    <select id="findRoleIdsByUserId" resultType="java.lang.Long">
+        select sr.id
+        from db_spzx.sys_user as su
+        join db_spzx.sys_user_role as sur on su.id = sur.user_id
+        join db_spzx.sys_role as sr on sr.id = sur.role_id
+        where su.id = #{userId}
     </select>
 </mapper>
