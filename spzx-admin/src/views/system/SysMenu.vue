@@ -10,7 +10,7 @@
       <el-table :data="menuData" row-key="id" border default-expand-all height="540px" style="margin-top: 20px">
         <el-table-column prop="title" label="菜单标题" />
         <el-table-column prop="component" label="路由名称" />
-        <el-table-column prop="sortValue" label="排序" />
+        <el-table-column prop="sortValue" label="排序"/>
         <el-table-column prop="status" label="状态" />
         <el-table-column prop="createTime" label="创建时间" />
         <el-table-column label="操作">
