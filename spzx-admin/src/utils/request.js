@@ -46,7 +46,7 @@ service.interceptors.request.use(
   config => {
     const { authorization } = useApp()  // 通过解构赋值，获得pinia app中获取authorization的值
     if (authorization) {
-        // 设置header中的token
+      // 设置header中的token
       config.headers.token = `${authorization.token}`
     }
     return config
@@ -71,8 +71,8 @@ service.interceptors.response.use(
       router.push({
         path: '/login',
         query: {
-          redirect
-        }
+          redirect,
+        },
       })
       return Promise.reject(new Error(result.message) || "用户登录异常")
     }

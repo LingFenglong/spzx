@@ -1,6 +1,6 @@
 package com.lingfenglong.spzx.controller;
 
-import com.lingfenglong.spzx.model.dto.system.AssignMenuDto;
+import com.lingfenglong.spzx.model.dto.system.SysMenuDto;
 import com.lingfenglong.spzx.model.entity.system.SysMenu;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
@@ -32,10 +32,32 @@ public class SysMenuController {
         return Result.build(menus, CommonResultCode.SUCCESS);
     }
 
-    @Operation(summary = "为角色分配菜单")
+    //@Operation(summary = "为角色分配菜单")
+    //@PutMapping("/assign")
+    //public Result<List<SysMenu>> assignRoleMenu(@RequestBody AssignMenuDto assignMenuDto) {
+    //    sysMenuService.assignRoleMenu(assignMenuDto);
+    //    return Result.build(null, CommonResultCode.SUCCESS);
+    //}
+
+    @Operation(summary = "删除底级菜单")
+    @DeleteMapping("/")
+    public Result<?> removeMenu(@RequestBody SysMenuDto sysMenuDto) {
+        //Long count = snpm
+        sysMenuService.removeMenu(sysMenuDto);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "修改菜单")
     @PutMapping("/")
-    public Result<List<SysMenu>> assignRoleMenu(@RequestBody AssignMenuDto assignMenuDto) {
-        sysMenuService.assignRoleMenu(assignMenuDto);
+    public Result<?> updateMenu(@RequestBody SysMenu sysMenu) {
+        sysMenuService.updateMenu(sysMenu);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "添加菜单")
+    @PostMapping("/")
+    public Result<?> saveMenu(@RequestBody SysMenu sysMenu) {
+        sysMenuService.saveMenu(sysMenu);
         return Result.build(null, CommonResultCode.SUCCESS);
     }
 

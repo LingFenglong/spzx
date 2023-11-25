@@ -11,11 +11,21 @@
  */
 import request from '@/utils/request'
 
-// 获取菜单
-export const GetMenus = params => {
+const prefix = '/admin/system/sysMenu'
+
+// 获取所有菜单
+export const GetMenus = () => {
   return request({
-    url: '/api/menus',
+    url: `${prefix}/`,
     method: 'get',
-    params,
+  })
+}
+
+// 删除一个底级菜单
+export const RemoveMenu = (menuDto) => {
+  return request({
+    url: `${prefix}/`,
+    method: 'delete',
+    data: menuDto,
   })
 }

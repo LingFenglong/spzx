@@ -8,8 +8,47 @@
         id, parent_id, title, component, sort_value, status, create_time, update_time, is_deleted
     </sql>
 
+    <!-- 添加一个子级菜单 -->
+    <insert id="saveMenu">
+        insert into db_spzx.sys_menu(<include refid="columns"/>)
+        values (#{id}, #{parentId}, #{title}, #{component}, #{sortValue}, #{status}, now(), now(), 0)
+    </insert>
+
+    <!-- 删除一个菜单 -->
+    <update id="removeMenu">
+        update db_spzx.sys_menu
+        set is_deleted = 1
+        where id = #{menuId}
+    </update>
+
+    <!-- 更新一个菜单 -->
+    <update id="updateMenu">
+        update db_spzx.sys_menu
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="component != null and component != ''">
+                component = #{component},
+            </if>
+            <if test="sort_value != null and sort_value != ''">
+                sort_value = #{sortValue},
+            </if>
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 查询所有菜单 -->
     <select id="findAll" resultType="com.lingfenglong.spzx.model.entity.system.SysMenu">
         select <include refid="columns"/>
         from db_spzx.sys_menu
+        where is_deleted = 0
+    </select>
+
+    <select id="findMenuById" resultType="com.lingfenglong.spzx.model.entity.system.SysMenu">
+        select <include refid="columns"/>
+        from db_spzx.sys_menu
+        where id = #{menuId} and is_deleted = 0
     </select>
 </mapper>

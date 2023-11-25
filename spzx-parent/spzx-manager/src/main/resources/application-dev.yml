@@ -34,7 +34,7 @@ spzx:
   minio:
     endpoint: http://192.168.144.132:9000
     access-key: minioadmin
-    secret-key: minioadmin
+    secret-key: min9ioadmin
     bucket: spzx-bucket
     allowed-content-type:
       "[image/png]": png
