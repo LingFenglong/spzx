@@ -45,6 +45,11 @@ public class SysMenuServiceImpl implements SysMenuService {
         sysMenuMapper.saveMenu(sysMenu);
     }
 
+    @Override
+    public Long countMenuByParentId(Long menuId) {
+        return sysMenuMapper.countMenuByParentId(menuId);
+    }
+
     @Autowired
     public void setSysMenuMapper(SysMenuMapper sysMenuMapper) {
         this.sysMenuMapper = sysMenuMapper;

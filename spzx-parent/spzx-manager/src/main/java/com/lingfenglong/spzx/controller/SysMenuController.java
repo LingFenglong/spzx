@@ -42,7 +42,10 @@ public class SysMenuController {
     @Operation(summary = "删除底级菜单")
     @DeleteMapping("/")
     public Result<?> removeMenu(@RequestBody SysMenuDto sysMenuDto) {
-        //Long count = snpm
+        Long count = sysMenuService.countMenuByParentId(sysMenuDto.getMenuId());
+        if (count > 0) {
+            Result.build(null, CommonResultCode.NODE_ERROR);
+        }
         sysMenuService.removeMenu(sysMenuDto);
         return Result.build(null, CommonResultCode.SUCCESS);
     }

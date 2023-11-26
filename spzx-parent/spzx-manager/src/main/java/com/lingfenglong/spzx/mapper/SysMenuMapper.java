@@ -18,4 +18,6 @@ public interface SysMenuMapper {
     void saveMenu(SysMenu sysMenu);
 
     SysMenu findMenuById(@Param("menuId") Long menuId);
+
+    Long countMenuByParentId(@Param("menuId") Long menuId);
 }

@@ -2,7 +2,7 @@
   <div class="search-div">
     <el-row>
       <el-col :span="6">
-        <el-button type="success" size="small">添 加</el-button>
+        <el-button type="success" size="small" @click="showAddMenu">添 加</el-button>
       </el-col>
     </el-row>
 
@@ -29,6 +29,33 @@
       </el-table>
     </el-row>
     
+    <el-dialog
+      title="添加菜单"
+      v-model="addMenuDialogVisible"
+      width="30%"
+       @keyup.enter="addMenu">
+      <el-form :model="menuDto" label-width="120px">
+        <el-form-item label="菜单标题">
+          <el-input v-model="menuDto.title"></el-input>
+        </el-form-item>
+        <el-form-item label="路由名称">
+          <el-input v-model="menuDto.component"></el-input>
+        </el-form-item>
+        <el-form-item label="排序">
+          <el-input v-model="menuDto.sortValue"></el-input>
+        </el-form-item>
+            <el-form-item label="状态">
+                <el-radio-group v-model="menuDto.status">
+                    <el-radio :label="1">正常</el-radio>
+                    <el-radio :label="0">停用</el-radio>
+                </el-radio-group>
+            </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -37,7 +64,22 @@ import { onMounted, ref } from "vue"
 import { GetMenus, RemoveMenu } from '@/api/menu'
 import { ElMessage } from "element-plus";
 
-const menuData = ref([])
+let menuData = ref([])
+
+let menuDto = ref({
+  parentId: 0,
+  title: '',
+  component: '',
+  sortValue: '',
+  status: 1
+})
+
+let addMenuDialogVisible = ref(false)
+
+// 添加菜单
+const showAddMenu = () => {
+  addMenuDialogVisible.value = !addMenuDialogVisible.value
+}
 
 // 修改菜单
 

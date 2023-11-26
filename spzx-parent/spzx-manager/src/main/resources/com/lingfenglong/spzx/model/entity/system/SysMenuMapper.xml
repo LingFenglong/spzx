@@ -46,9 +46,17 @@
         where is_deleted = 0
     </select>
 
+    <!-- 通过id查询菜单 -->
     <select id="findMenuById" resultType="com.lingfenglong.spzx.model.entity.system.SysMenu">
         select <include refid="columns"/>
         from db_spzx.sys_menu
         where id = #{menuId} and is_deleted = 0
+    </select>
+
+    <!-- 根据parentId查询其子菜单的数量 -->
+    <select id="countMenuByParentId" resultType="Long">
+        select count(*)
+        from db_spzx.sys_menu
+        where parent_id = #{id};
     </select>
 </mapper>
