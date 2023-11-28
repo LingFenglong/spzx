@@ -11,7 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Tag(name = "菜单管理接口")
@@ -32,6 +34,25 @@ public class SysMenuController {
         return Result.build(menus, CommonResultCode.SUCCESS);
     }
 
+    @Operation(summary = "获取角色已分配的菜单")
+    @GetMapping("/{roleId}")
+    public Result<Map<String, Object>> findMenuIdsByRoleId(@PathVariable("roleId") Long roleId) {
+        // 获取所有菜单
+        List<SysMenu> menus = sysMenuService.findAll();
+        // 将菜单的格式变为所需的
+        menus = MenuUtil.builder()
+                .setMenuList(menus)
+                .buildMenuTree();
+
+        // 获得已分配的menuId
+        List<Long> menuIds = sysMenuService.findMenuIdsByRoleId(roleId);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("allMenu", menus);
+        map.put("assignedMenu", menuIds);
+        return Result.build(map, CommonResultCode.SUCCESS);
+    }
+
     //@Operation(summary = "为角色分配菜单")
     //@PutMapping("/assign")
     //public Result<List<SysMenu>> assignRoleMenu(@RequestBody AssignMenuDto assignMenuDto) {
@@ -44,7 +65,7 @@ public class SysMenuController {
     public Result<?> removeMenu(@RequestBody SysMenuDto sysMenuDto) {
         Long count = sysMenuService.countMenuByParentId(sysMenuDto.getMenuId());
         if (count > 0) {
-            Result.build(null, CommonResultCode.NODE_ERROR);
+            return Result.build(null, CommonResultCode.NODE_ERROR);
         }
         sysMenuService.removeMenu(sysMenuDto);
         return Result.build(null, CommonResultCode.SUCCESS);
@@ -59,8 +80,8 @@ public class SysMenuController {
 
     @Operation(summary = "添加菜单")
     @PostMapping("/")
-    public Result<?> saveMenu(@RequestBody SysMenu sysMenu) {
-        sysMenuService.saveMenu(sysMenu);
+    public Result<?> saveMenu(@RequestBody SysMenuDto sysMenuDto) {
+        sysMenuService.saveMenu(sysMenuDto);
         return Result.build(null, CommonResultCode.SUCCESS);
     }
 

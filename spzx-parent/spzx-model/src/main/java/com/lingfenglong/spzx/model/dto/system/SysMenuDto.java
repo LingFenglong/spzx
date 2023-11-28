@@ -6,6 +6,9 @@ import lombok.Data;
 @Data
 @Schema(description = "请求参数实体类")
 public class SysMenuDto {
+    @Schema(description = "节点id")
+    private Long menuId;
+
     @Schema(description = "父节点id")
     private Long parentId;
 

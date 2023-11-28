@@ -41,13 +41,24 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
-    public void saveMenu(SysMenu sysMenu) {
+    public void saveMenu(SysMenuDto sysMenuDto) {
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setComponent(sysMenuDto.getComponent());
+        sysMenu.setTitle(sysMenuDto.getTitle());
+        sysMenu.setStatus(sysMenuDto.getStatus());
+        sysMenu.setSortValue(sysMenuDto.getSortValue());
+        sysMenu.setParentId(sysMenuDto.getParentId());
         sysMenuMapper.saveMenu(sysMenu);
     }
 
     @Override
     public Long countMenuByParentId(Long menuId) {
         return sysMenuMapper.countMenuByParentId(menuId);
+    }
+
+    @Override
+    public List<Long> findMenuIdsByRoleId(Long roleId) {
+        return sysMenuMapper.findMenuIdsByRoleId(roleId);
     }
 
     @Autowired

@@ -15,7 +15,9 @@ public interface SysMenuService {
 
     void updateMenu(SysMenu sysMenu);
 
-    void saveMenu(SysMenu sysMenu);
+    void saveMenu(SysMenuDto sysMenuDto);
 
     Long countMenuByParentId(Long menuId);
+
+    List<Long> findMenuIdsByRoleId(Long roleId);
 }

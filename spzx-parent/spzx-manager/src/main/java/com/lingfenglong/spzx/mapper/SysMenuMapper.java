@@ -20,4 +20,6 @@ public interface SysMenuMapper {
     SysMenu findMenuById(@Param("menuId") Long menuId);
 
     Long countMenuByParentId(@Param("menuId") Long menuId);
+
+    List<Long> findMenuIdsByRoleId(@Param("roleId") Long roleId);
 }

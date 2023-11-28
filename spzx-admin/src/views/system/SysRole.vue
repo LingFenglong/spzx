@@ -23,6 +23,7 @@
       <el-table-column prop="createTime" label="创建时间" />
       <el-table-column label="操作" align="center" width="280" #default="scope">
         <el-button type="primary" size="small" @click="showUpdateRole(scope.row)">修改</el-button>
+        <el-button type="warning" size="small" @click="showAssignMenu(scope.row)">分配菜单</el-button>
         <el-button type="danger" size="small" @click="showRemoveRole(scope.row)">删除</el-button>
       </el-table-column>
     </el-table>
@@ -59,7 +60,7 @@
   </el-dialog>
 
   <!-- 修改 -->
-    <el-dialog v-model="isShowUpdate" title="修改角色" align-center width="30%" @keyup.enter="updateRole">
+  <el-dialog v-model="isShowUpdate" title="修改角色" align-center width="30%" @keyup.enter="updateRole">
     <el-form :model="roleForm">
       <el-form-item label="角色名称：">
         <el-input v-model="roleForm.roleName" autocomplete="off" />
@@ -78,11 +79,32 @@
       </span>
     </template>
   </el-dialog>
+
+  <!-- 分配菜单 -->
+  <!-- 分配菜单的对话框 tree组件添加ref属性，后期方便进行tree组件对象的获取 -->
+  <el-dialog v-model="assignRoleDialogVisible" title="分配菜单" width="40%">
+    <el-form label-width="80px">
+      <el-tree
+              :data="sysMenuTreeList.allMenu"
+              ref="tree"   
+              show-checkbox
+              default-expand-all
+              :check-on-click-node="true"
+              node-key="id"
+              :props="defaultProps"/>
+    </el-form>
+    <template #footer>
+      <el-button type="primary">提交</el-button>
+      <el-button @click="assignRoleDialogVisible = false">取消</el-button>
+    </template>
+  </el-dialog>
+  
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, watch } from 'vue'
+import { reactive, toRefs, onMounted, watch, ref } from 'vue'
 import { SaveSysRole, RemoveSysRole, UpdateSysRole, FindSysRolePage } from '@/api/sysRole'
+import { GetSysMenuTreeList } from '@/api/menu'
 import { ElMessage } from 'element-plus'
 import { ElMessageBox } from 'element-plus'
 
@@ -107,6 +129,21 @@ export default {
       description: ''
     })
 
+    let assignRoleDialogVisible = ref(false)
+
+    let sysMenuTreeList = ref([])
+
+    // 分配菜单
+    const showAssignMenu = async (row) => {
+      assignRoleDialogVisible.value = true
+      const { data, code } = await GetSysMenuTreeList(row.id)
+      if (code === 200) {
+        sysMenuTreeList.value = data
+      } else {
+        ElMessage.error("获取菜单数据失败")
+      }
+    }
+
     // 删除 ----------------------------------------------------------------------------
     const showRemoveRole = (row) => {
       ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', `角色：${row.roleName}`, {
@@ -123,8 +160,9 @@ export default {
             ElMessage.error('删除角色失败')
           }
         },
-        () => {}
-      ).catch(async (e) => {
+        () => {
+
+        }).catch(async (e) => {
         ElMessage.error('错误，请查看控制台信息')
         console.log(e);
       })
@@ -226,6 +264,9 @@ export default {
       // 删除角色
       showRemoveRole,
       
+      // 分配菜单
+      assignRoleDialogVisible,
+      showAssignMenu,
     }
   }
 }

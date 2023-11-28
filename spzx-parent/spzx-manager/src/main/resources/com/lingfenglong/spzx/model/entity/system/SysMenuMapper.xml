@@ -31,7 +31,7 @@
             <if test="component != null and component != ''">
                 component = #{component},
             </if>
-            <if test="sort_value != null and sort_value != ''">
+            <if test="sortValue != null and sortValue != ''">
                 sort_value = #{sortValue},
             </if>
             update_time = now()
@@ -57,6 +57,17 @@
     <select id="countMenuByParentId" resultType="Long">
         select count(*)
         from db_spzx.sys_menu
-        where parent_id = #{id};
+        where parent_id = #{menuId} and is_deleted = 0;
+    </select>
+
+    <select id="findMenuIdsByRoleId" resultType="java.lang.Long">
+        select distinct m.id
+        from sys_role as r
+        join sys_role_menu as rm on r.id = rm.role_id
+        join sys_menu as m on rm.menu_id = m.id
+        where r.id = #{roleId}
+            and r.is_deleted = 0
+            and rm.is_deleted = 0
+            and m.is_deleted = 0
     </select>
 </mapper>

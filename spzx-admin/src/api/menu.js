@@ -29,3 +29,29 @@ export const RemoveMenu = (menuDto) => {
     data: menuDto,
   })
 }
+
+// 添加菜单
+export const AddMenu = (menuDto) => {
+  return request({
+    url: `${prefix}/`,
+    method: 'post',
+    data: menuDto
+  })
+}
+
+// 修改菜单
+export const UpdateMenu = (menuDto) => {
+  return request({
+    url: `${prefix}/`,
+    method: 'put',
+    data: menuDto
+  })
+}
+
+// 获取菜单数列表
+export const GetSysMenuTreeList = (roleId) => {
+  return request({
+    url: `${prefix}/${roleId}`,
+    method: 'get',
+  })
+}
