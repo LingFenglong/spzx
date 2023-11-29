@@ -26,10 +26,10 @@
 
     <!-- 为一个角色分配菜单 -->
     <insert id="assignRoleMenu">
-        insert into db_spzx.sys_role_menu(role_id, menu_id, is_half)
+        insert into db_spzx.sys_role_menu(role_id, menu_id)
         values 
-        <foreach collection="menuIdList" item="" separator=",">
-
+        <foreach collection="menuIdList" item="id" separator=",">
+            (#{roleId}, #{id})
         </foreach>
     </insert>
 
@@ -53,7 +53,7 @@
     <!-- 移除该角色的所有菜单 -->
     <delete id="removeAllMenu">
         delete from db_spzx.sys_role_menu
-        where role_id = #{roleID}
+        where role_id = #{roleId}
     </delete>
 
     <!-- 删除系统角色 -->

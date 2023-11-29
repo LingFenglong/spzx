@@ -44,6 +44,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public void assignRoleMenu(AssignMenuDto assignMenuDto) {
+        sysRoleMapper.removeAllMenu(assignMenuDto.getRoleId());
         sysRoleMapper.assignRoleMenu(assignMenuDto);
     }
 

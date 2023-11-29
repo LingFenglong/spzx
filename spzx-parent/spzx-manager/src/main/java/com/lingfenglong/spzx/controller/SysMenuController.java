@@ -53,13 +53,6 @@ public class SysMenuController {
         return Result.build(map, CommonResultCode.SUCCESS);
     }
 
-    //@Operation(summary = "为角色分配菜单")
-    //@PutMapping("/assign")
-    //public Result<List<SysMenu>> assignRoleMenu(@RequestBody AssignMenuDto assignMenuDto) {
-    //    sysMenuService.assignRoleMenu(assignMenuDto);
-    //    return Result.build(null, CommonResultCode.SUCCESS);
-    //}
-
     @Operation(summary = "删除底级菜单")
     @DeleteMapping("/")
     public Result<?> removeMenu(@RequestBody SysMenuDto sysMenuDto) {

@@ -1,7 +1,9 @@
 package com.lingfenglong.spzx.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.lingfenglong.spzx.model.dto.system.AssignMenuDto;
 import com.lingfenglong.spzx.model.dto.system.SysRoleDto;
+import com.lingfenglong.spzx.model.entity.system.SysMenu;
 import com.lingfenglong.spzx.model.entity.system.SysRole;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
@@ -10,6 +12,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "系统角色接口")
 @RestController
@@ -47,6 +51,13 @@ public class SysRoleController {
     @PostMapping("/update")
     public Result<?> update(@RequestBody SysRole sysRole) {
         sysRoleService.update(sysRole);
+        return Result.build(null, CommonResultCode.SUCCESS);
+    }
+
+    @Operation(summary = "为角色分配菜单")
+    @PutMapping("/assign")
+    public Result<?> assignRoleMenu(@RequestBody AssignMenuDto assignMenuDto) {
+        sysRoleService.assignRoleMenu(assignMenuDto);
         return Result.build(null, CommonResultCode.SUCCESS);
     }
 

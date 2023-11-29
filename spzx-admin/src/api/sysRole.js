@@ -35,3 +35,12 @@ export const FindSysRolePage = (pageNum, pageSize, queryDto) => {
     data: queryDto
   })
 }
+
+// 分配菜单列表
+export const AssignMenu = (assignedMenuDto) => {
+  return request({
+    url: `${prefix}/assign`,
+    method: 'put',
+    data: assignedMenuDto,
+  })
+}
