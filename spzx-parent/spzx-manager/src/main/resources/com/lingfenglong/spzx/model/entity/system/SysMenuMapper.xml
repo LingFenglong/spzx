@@ -66,6 +66,7 @@
         join sys_role_menu as rm on r.id = rm.role_id
         join sys_menu as m on rm.menu_id = m.id
         where r.id = #{roleId}
+            and rm.is_half = 0
             and r.is_deleted = 0
             and rm.is_deleted = 0
             and m.is_deleted = 0

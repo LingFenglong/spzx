@@ -13,14 +13,6 @@ import request from '@/utils/request'
 
 const prefix = '/admin/system/sysMenu'
 
-// 获取所有菜单
-export const GetMenus = () => {
-  return request({
-    url: `${prefix}/`,
-    method: 'get',
-  })
-}
-
 // 删除一个底级菜单
 export const RemoveMenu = (menuDto) => {
   return request({
@@ -48,10 +40,18 @@ export const UpdateMenu = (menuDto) => {
   })
 }
 
-// 获取菜单数列表
+// 获取菜单树列表
 export const GetSysMenuTreeList = (roleId) => {
   return request({
     url: `${prefix}/${roleId}`,
     method: 'get',
+  })
+}
+
+// 根据用户Id获得用户的菜单列表
+export const GetMenus = () => {
+  return request({
+    url: `/admin/system/index/menus`,
+    method: 'get'
   })
 }

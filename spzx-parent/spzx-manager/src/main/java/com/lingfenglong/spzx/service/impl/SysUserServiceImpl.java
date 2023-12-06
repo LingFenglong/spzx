@@ -1,12 +1,15 @@
 package com.lingfenglong.spzx.service.impl;
 
+import cn.hutool.core.lang.tree.TreeBuilder;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.mapper.SysRoleMapper;
 import com.lingfenglong.spzx.model.dto.system.AssignRoleDto;
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
+import com.lingfenglong.spzx.model.entity.system.SysMenu;
 import com.lingfenglong.spzx.model.entity.system.SysRole;
+import com.lingfenglong.spzx.model.vo.system.SysMenuVo;
 import com.lingfenglong.spzx.model.vo.system.UserRolesVo;
 import com.lingfenglong.spzx.util.AuthContextUtil;
 import com.lingfenglong.spzx.util.RedisPrefix;
@@ -17,14 +20,18 @@ import com.lingfenglong.spzx.model.entity.system.SysUser;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
 import com.lingfenglong.spzx.service.SysUserService;
+import com.lingfenglong.spzx.utils.MenuUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -138,6 +145,27 @@ public class SysUserServiceImpl implements SysUserService {
         assignRoleDto
                 .getRoleIdList()
                 .forEach(roleId -> sysUserMapper.assignRoles(assignRoleDto.getUserId(), roleId));
+    }
+
+    @Override
+    public List<SysMenuVo> findMenusByUserId() {
+        List<SysMenu> menus = sysUserMapper.findMenusByUserId(AuthContextUtil.get().getId());
+        List<SysMenu> menuList = MenuUtil.builder()
+                .setMenuList(menus)
+                .buildMenuTree();
+        return buildSysMenuVo(menuList);
+    }
+
+    List<SysMenuVo> buildSysMenuVo(List<SysMenu> sysMenus) {
+        if (CollectionUtils.isEmpty(sysMenus)) return null;
+        return sysMenus.stream()
+                .map(menu -> {
+                    SysMenuVo sysMenuVo = new SysMenuVo();
+                    sysMenuVo.setName(menu.getComponent());
+                    sysMenuVo.setTitle(menu.getTitle());
+                    sysMenuVo.setChildren(buildSysMenuVo(menu.getChildren()));
+                    return sysMenuVo;
+                }).collect(Collectors.toList());
     }
 
 

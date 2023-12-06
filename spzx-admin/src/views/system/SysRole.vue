@@ -5,7 +5,7 @@
       <el-row>
         <el-col :span="5">
           <el-form-item label="角色名称">
-            <el-input style="width: 100%" placeholder="角色名称" v-model="queryDto.roleName" @keyup.enter="fetchSysRoleList"></el-input>
+            <el-input style="width: 100%" placeholder="角色名称" v-model="sysRoleList.queryDto.roleName" @keyup.enter="fetchSysRoleList"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -108,9 +108,6 @@ import { GetSysMenuTreeList } from '@/api/menu'
 import { ElMessage } from 'element-plus'
 import { ElMessageBox } from 'element-plus'
 
-// export default {
-  // name: 'SysRole',
-  // setup(props, context) {
   onMounted(() => {
     fetchSysRoleList()
   })
@@ -137,7 +134,7 @@ import { ElMessageBox } from 'element-plus'
 
   const roleId = ref()
 
-  // 分配菜单
+  // 展示分配菜单
   const showAssignMenu = async (row) => {
     assignRoleDialogVisible.value = true
     roleId.value = row.id
@@ -150,10 +147,12 @@ import { ElMessageBox } from 'element-plus'
     }
   }
 
+  // 分配菜单
   const assignMenu = async () => {
     const assignedMenuDto = {
       roleId: roleId.value,
-      menuIdList: [...tree.value.getCheckedNodes().map(node => node.id), ...tree.value.getHalfCheckedNodes().map(node => node.id)],
+      menuIdList: [...tree.value.getCheckedNodes().map(node => ({ id: node.id, isHalf: 0 })),
+                   ...tree.value.getHalfCheckedNodes().map(node => ({ id: node.id, isHalf: 1 }))],
     }
     console.log(assignedMenuDto);
     // 发送请求
@@ -161,7 +160,7 @@ import { ElMessageBox } from 'element-plus'
     if (code === 200) {
       ElMessage.success('操作成功')
     } else {
-      ElMessage.success('操作失败')
+      ElMessage.error('操作失败')
     }
     assignRoleDialogVisible.value = false
 
@@ -269,31 +268,6 @@ import { ElMessageBox } from 'element-plus'
   }
 
 
-    // return {
-    //   ...toRefs(sysRoleList),
-    //   ...toRefs(isShow),
-    //   fetchSysRoleList,
-    //   reset,
-
-    //   // 添加角色
-    //   roleForm,
-    //   showAddRole,
-    //   addRole,
-
-    //   // 修改角色
-    //   showUpdateRole,
-    //   updateRole,
-
-    //   // 删除角色
-    //   showRemoveRole,
-      
-    //   // 分配菜单
-    //   sysMenuTreeList,
-    //   assignRoleDialogVisible,
-    //   showAssignMenu,
-    // }
-  // }
-// }
 
 </script>
 

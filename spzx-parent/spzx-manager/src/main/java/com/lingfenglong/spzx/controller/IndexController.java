@@ -6,12 +6,15 @@ import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
 import com.lingfenglong.spzx.model.vo.system.LoginVo;
+import com.lingfenglong.spzx.model.vo.system.SysMenuVo;
 import com.lingfenglong.spzx.model.vo.system.ValidateCodeVo;
 import com.lingfenglong.spzx.service.SysUserService;
 import com.lingfenglong.spzx.service.ValidateCodeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "用户登录接口")
 @RestController
@@ -54,4 +57,9 @@ public class IndexController {
         return Result.build(null, SysUserResultCode.LOGOUT_SUCCESS);
     }
 
+    @Operation(summary = "获得用户菜单")
+    @GetMapping("/menus")
+    public Result<List<SysMenuVo>> menus() {
+        return Result.build(sysUserService.findMenusByUserId(), CommonResultCode.SUCCESS);
+    }
 }

@@ -26,10 +26,10 @@
 
     <!-- 为一个角色分配菜单 -->
     <insert id="assignRoleMenu">
-        insert into db_spzx.sys_role_menu(role_id, menu_id)
+        insert into db_spzx.sys_role_menu(role_id, menu_id, is_half)
         values 
-        <foreach collection="menuIdList" item="id" separator=",">
-            (#{roleId}, #{id})
+        <foreach collection="menuIdList" item="item" separator=",">
+            (#{roleId}, #{item.id}, #{item.isHalf})
         </foreach>
     </insert>
 

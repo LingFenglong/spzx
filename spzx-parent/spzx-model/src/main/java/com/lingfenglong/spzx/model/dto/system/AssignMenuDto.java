@@ -14,6 +14,6 @@ public class AssignMenuDto {
     private Long roleId;			// 角色id
 
     @Schema(description = "选中的菜单id的集合")
-    private List<Long> menuIdList;	// 选中的菜单id的集合; Map的键表示菜单的id，值表示是否为半开; 0否，1是
+    private List<Map<String, Number>> menuIdList;	// 选中的菜单id的集合; Map的键表示菜单的id，值表示是否为半开; 0否，1是
 
 }

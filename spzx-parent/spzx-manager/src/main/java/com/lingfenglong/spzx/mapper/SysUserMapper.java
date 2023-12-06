@@ -1,7 +1,9 @@
 package com.lingfenglong.spzx.mapper;
 
 import com.lingfenglong.spzx.model.dto.system.SysUserDto;
+import com.lingfenglong.spzx.model.entity.system.SysMenu;
 import com.lingfenglong.spzx.model.entity.system.SysUser;
+import com.lingfenglong.spzx.model.vo.system.SysMenuVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +31,6 @@ public interface SysUserMapper {
 
     // 为用户重新分配角色
     void assignRoles(@Param("userId") Long userId, @Param("roleId") Long roleId);
+
+    List<SysMenu> findMenusByUserId(@Param("userId") Long id);
 }
