@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.mapper.BrandMapper">
+
+    <insert id="save">
+        insert into db_spzx.brand(id, name, logo, create_time, update_time, is_deleted)
+        values (null, #{name}, #{logo}, current_timestamp, current_timestamp, 0);
+    </insert>
+
+    <update id="delete">
+        update db_spzx.brand
+        set is_deleted = 1
+        where id = #{id}
+    </update>
+
+    <update id="update">
+        update db_spzx.brand
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="logo != null and logo != ''">
+                logo = #{logo},
+            </if>
+            update_time = current_timestamp
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findAll" resultType="com.lingfenglong.spzx.model.entity.product.Brand">
+        select *
+        from db_spzx.brand
+        where is_deleted = 0
+    </select>
+
+    <select id="findById" resultType="com.lingfenglong.spzx.model.entity.product.Brand">
+        select *
+        from db_spzx.brand
+        where id = #{id}
+          and is_deleted = 0
+    </select>
+
+    <select id="findBrandsByCategoryId" resultType="com.lingfenglong.spzx.model.entity.product.Brand">
+        select b.*
+        from db_spzx.category_brand cb
+        left join db_spzx.brand b on cb.brand_id = b.id
+        where cb.category_id = #{id} and cb.is_deleted = 0 and b.is_deleted = 0
+    </select>
+</mapper>

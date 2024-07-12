@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.service.product.mapper.ProductSkuMapper">
+    <select id="getHotProductList" resultType="ProductSku">
+        select
+            *
+        from
+            db_spzx.product_sku as sku
+        left join
+            db_spzx.product p on p.id = sku.product_id
+        where
+            p.status = 1
+            and p.is_deleted = 0
+            and sku.is_deleted = 0
+        order by sale_num desc
+        limit 20
+    </select>
+</mapper>

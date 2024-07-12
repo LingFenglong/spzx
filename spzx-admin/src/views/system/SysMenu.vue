@@ -54,7 +54,7 @@
 
 <script setup>
 import { onMounted, ref, toRaw } from "vue"
-import { GetMenus, RemoveMenu, AddMenu, UpdateMenu } from '@/api/menu'
+import { GetAllMenus, RemoveMenu, AddMenu, UpdateMenu } from '@/api/menu'
 import { ElMessage, ElMessageBox } from "element-plus";
 
 let menuData = ref([])
@@ -153,7 +153,7 @@ const removeMenu = async (row) => {
 
 // 获取菜单
 const fetchMenus = async () => {
-  const { data, code } = await GetMenus();
+  const { data, code } = await GetAllMenus();
   if (code === 200) {
     menuData.value = data
   } else {

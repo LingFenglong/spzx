@@ -55,3 +55,11 @@ export const GetMenus = () => {
     method: 'get'
   })
 }
+
+// 获取所有菜单
+export const GetAllMenus = () => {
+  return request({
+    url: `/admin/system/sysMenu/`,
+    method: 'get'
+  })
+}

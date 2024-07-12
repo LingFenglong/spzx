@@ -40,7 +40,8 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
         }
 
         // 4.延长token过期时间
-        stringRedisTemplate.expire(RedisPrefix.USER_LOGIN + token, 30, TimeUnit.MINUTES);
+        // stringRedisTemplate.expire(RedisPrefix.USER_LOGIN + token, 30, TimeUnit.MINUTES);
+        stringRedisTemplate.expire(RedisPrefix.USER_LOGIN + token, 30000, TimeUnit.DAYS);
 
         // 5.token存在，获得用户信息，存入ThreadLocal中
         SysUser sysUser = JSON.parseObject(sysUserInfo, SysUser.class);

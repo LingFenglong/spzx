@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.mapper.CategoryBrandMapper">
+    <resultMap id="categoryBrandMap" type="CategoryBrand">
+        <id property="id" column="id"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="logo" column="logo"/>
+        <result property="brandName" column="brand_name"/>
+        <result property="categoryName" column="category_name"/>
+    </resultMap>
+
+    <sql id="findWhere">
+        <where>
+            <if test="brandId != null">
+                and cb.brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null">
+                and cb.category_id = #{categoryId}
+            </if>
+            and cb.is_deleted = 0
+        </where>
+    </sql>
+
+    <insert id="save">
+        insert into db_spzx.category_brand(brand_id, category_id)
+        values (#{brandId}, #{categoryId})
+    </insert>
+
+    <update id="delete">
+        update db_spzx.category_brand
+        set is_deleted = 1
+        where id = #{id} and is_deleted = 0
+    </update>
+
+    <update id="update">
+        update db_spzx.category_brand
+        set brand_id = #{brandId}, category_id = #{categoryId}
+        where id = #{id}
+    </update>
+
+    <select id="findPageByCategoryBrandDto" resultMap="categoryBrandMap">
+        select cb.id, cb.brand_id, cb.category_id, cb.create_time, cb.update_time, b.logo, b.name as brand_name, c.name as category_name, cb.is_deleted
+        from db_spzx.category_brand cb
+        left join db_spzx.category c on cb.category_id = c.id
+        left join db_spzx.brand b on cb.brand_id = b.id
+        <include refid="findWhere"/>
+        order by cb.id desc
+    </select>
+
+    <select id="findAll" resultMap="categoryBrandMap">
+        select cb.id, cb.brand_id, cb.category_id, cb.create_time, cb.update_time, b.logo, b.name as brand_name, c.name as category_name, cb.is_deleted
+        from db_spzx.category_brand cb
+        left join db_spzx.category c on cb.category_id = c.id
+        left join db_spzx.brand b on cb.brand_id = b.id
+        order by cb.id desc
+    </select>
+</mapper>

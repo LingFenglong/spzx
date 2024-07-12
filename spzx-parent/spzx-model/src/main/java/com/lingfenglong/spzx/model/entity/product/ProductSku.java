@@ -3,6 +3,7 @@ package com.lingfenglong.spzx.model.entity.product;
 
 import com.lingfenglong.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;

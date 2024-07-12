@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingfenglong.spzx.mapper.CategoryMapper">
+    <sql id="columns">
+        id, name, image_url, parent_id, status, order_num, create_time, update_time, is_deleted
+    </sql>
+    <insert id="saveBatch">
+        insert into db_spzx.category(id, name, image_url, parent_id, status, order_num, create_time, update_time, is_deleted)
+        values
+        <foreach collection="categoryList" separator="," item="category">
+            (#{category.id}, #{category.name}, #{category.imageUrl}, #{category.parentId}, #{category.status}, #{category.orderNum}, now(), now(), 0)
+        </foreach>
+    </insert>
+    <resultMap id="CategoryMap" type="com.lingfenglong.spzx.model.entity.product.Category" autoMapping="true"/>
+
+    <select id="findCategoryListByParentId" resultMap="CategoryMap">
+        select <include refid="columns"/>
+        from db_spzx.category
+        where is_deleted = 0 and parent_id = #{id}
+    </select>
+    <select id="countCategoryListByParentId" resultType="java.lang.Integer">
+        select count(*)
+        from db_spzx.category
+        where is_deleted = 0 and parent_id = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.lingfenglong.spzx.model.vo.product.CategoryExcelVo">
+        select *
+        from db_spzx.category
+        where is_deleted = 0
+    </select>
+
+    <select id="findCategoriesIn" resultType="com.lingfenglong.spzx.model.entity.product.Category">
+        select *
+        from db_spzx.category
+        where is_deleted = 0 and id in
+              <foreach collection="ids" open="(" close=")" separator="," item="id">
+                  #{id}
+              </foreach>
+    </select>
+</mapper>

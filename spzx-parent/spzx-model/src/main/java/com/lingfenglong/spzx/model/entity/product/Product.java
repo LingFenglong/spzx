@@ -1,6 +1,7 @@
 package com.lingfenglong.spzx.model.entity.product;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.lingfenglong.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -46,21 +47,27 @@ public class Product extends BaseEntity {
 
 	// 扩展的属性，用来封装响应的数据
 	@Schema(description = "品牌名称")
+	@TableField(exist = false)
 	private String brandName;				// 品牌
 
 	@Schema(description = "一级分类名称")
+	@TableField(exist = false)
 	private String category1Name;			// 一级分类
 
 	@Schema(description = "二级分类名称")
+	@TableField(exist = false)
 	private String category2Name;			// 二级分类
 
 	@Schema(description = "三级分类名称")
+	@TableField(exist = false)
 	private String category3Name;			// 三级分类
 
 	@Schema(description = "sku列表集合")
+	@TableField(exist = false)
 	private List<ProductSku> productSkuList;		// sku列表集合
 
 	@Schema(description = "图片详情列表")
+	@TableField(exist = false)
 	private String detailsImageUrls;				// 图片详情列表
 
 }

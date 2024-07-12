@@ -1,11 +1,13 @@
 package com.lingfenglong.spzx.model.entity.product;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.lingfenglong.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 @Schema(description = "商品规格实体类")
+@TableName("product_spec")
 public class ProductSpec extends BaseEntity {
 
 	@Schema(description = "规格名称")

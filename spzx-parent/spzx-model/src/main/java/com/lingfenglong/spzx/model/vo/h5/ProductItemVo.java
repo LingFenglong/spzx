@@ -5,12 +5,14 @@ import com.alibaba.fastjson2.JSONArray;
 import com.lingfenglong.spzx.model.entity.product.Product;
 import com.lingfenglong.spzx.model.entity.product.ProductSku;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
 
 @Data
+@Builder
 @Schema(description = "商品详情对象")
 public class ProductItemVo {
 

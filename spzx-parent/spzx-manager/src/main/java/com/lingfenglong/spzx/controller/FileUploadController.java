@@ -24,6 +24,13 @@ public class FileUploadController {
         return Result.build(url, CommonResultCode.SUCCESS);
     }
 
+    @Operation(summary = "图片上传接口")
+    @PostMapping("")
+    public Result<String> image(MultipartFile file) {
+        String url =  fileUploadService.save(file);
+        return Result.build(url, CommonResultCode.SUCCESS);
+    }
+
     @Autowired
     public void setFileUploadService(FileUploadService fileUploadService) {
         this.fileUploadService = fileUploadService;

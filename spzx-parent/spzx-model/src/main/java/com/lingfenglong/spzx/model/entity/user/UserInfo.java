@@ -3,11 +3,13 @@ package com.lingfenglong.spzx.model.entity.user;
 
 import com.lingfenglong.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
+@Builder
 @Schema(description = "用户实体类")
 public class UserInfo extends BaseEntity {
 
