@@ -14,6 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LogUtil {
 
@@ -48,7 +50,14 @@ public class LogUtil {
             }
         }
 
-        sysOperLog.setOperName(AuthContextUtil.get().getUserName());
+        AtomicReference<String> username = new AtomicReference<>();
+        Optional.ofNullable(AuthContextUtil.getSysUser())
+                        .ifPresentOrElse(
+                                sysUser -> username.set(sysUser.getUserName()),
+                                () -> username.set(AuthContextUtil.getUserInfo().getUsername())
+                        );
+
+        sysOperLog.setOperName(username.get());
     }
 
     public static void afterProceed(

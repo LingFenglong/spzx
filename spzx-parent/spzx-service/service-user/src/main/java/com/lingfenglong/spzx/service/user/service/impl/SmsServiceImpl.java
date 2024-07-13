@@ -1,6 +1,6 @@
 package com.lingfenglong.spzx.service.user.service.impl;
 
-import com.lingfenglong.spzx.service.user.constant.RedisConstant;
+import com.lingfenglong.spzx.util.constant.RedisConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;

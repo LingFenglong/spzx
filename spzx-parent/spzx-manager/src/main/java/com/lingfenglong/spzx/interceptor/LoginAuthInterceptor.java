@@ -45,7 +45,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 
         // 5.token存在，获得用户信息，存入ThreadLocal中
         SysUser sysUser = JSON.parseObject(sysUserInfo, SysUser.class);
-        AuthContextUtil.set(sysUser);
+        AuthContextUtil.setSysUser(sysUser);
 
         // 6.返回通过
         return true;
@@ -53,7 +53,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        AuthContextUtil.remove();
+        AuthContextUtil.removeSysUser();
     }
 
     @Autowired

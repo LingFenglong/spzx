@@ -2,14 +2,12 @@ package com.lingfenglong.spzx.service.user.controller;
 
 import com.lingfenglong.spzx.model.dto.h5.UserLoginDto;
 import com.lingfenglong.spzx.model.dto.h5.UserRegisterDto;
-import com.lingfenglong.spzx.model.entity.user.UserInfo;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
 import com.lingfenglong.spzx.model.vo.h5.UserInfoVo;
 import com.lingfenglong.spzx.service.user.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +23,7 @@ public class UserInfoController {
     }
 
     @PostMapping("/login")
-    public Result<?> login(@RequestBody @Valid UserLoginDto userLoginDto, Errors errors) {
+    public Result<?> login(@Valid @RequestBody UserLoginDto userLoginDto, Errors errors) {
         String token = userInfoServiceImpl.login(userLoginDto);
         return Result.build(token, CommonResultCode.SUCCESS);
     }

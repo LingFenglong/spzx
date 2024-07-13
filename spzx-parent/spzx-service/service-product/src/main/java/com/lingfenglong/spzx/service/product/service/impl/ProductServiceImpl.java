@@ -46,7 +46,7 @@ public class ProductServiceImpl
                         .collect(
                                 HashMap::new,
                                 (map, sku) -> {
-                                    map.put(sku.getSkuSpec(), sku.getId());
+                                    map.put(convertSkuSpecString(sku.getSkuSpec()), sku.getId());
                                 },
                                 HashMap::putAll
                         );
@@ -59,5 +59,20 @@ public class ProductServiceImpl
                 .specValueList(JSONArray.parse(product.getSpecValue()))
                 .skuSpecValueMap(skuSpecValueMap)
                 .build();
+    }
+
+    /**
+     * 转化为需要的字符串样式
+     */
+    private String convertSkuSpecString(String skuSpec) {
+        return Arrays.stream(skuSpec.split(","))
+                .map(sku -> sku.split(":")[1] + " ")
+                .collect(
+                        StringBuilder::new,
+                        StringBuilder::append,
+                        StringBuilder::append
+                )
+                .toString()
+                .trim();
     }
 }

@@ -9,16 +9,15 @@ import com.lingfenglong.spzx.model.dto.h5.UserRegisterDto;
 import com.lingfenglong.spzx.model.entity.user.UserInfo;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
 import com.lingfenglong.spzx.model.vo.h5.UserInfoVo;
-import com.lingfenglong.spzx.service.user.constant.RedisConstant;
 import com.lingfenglong.spzx.service.user.mapper.UserInfoMapper;
 import com.lingfenglong.spzx.service.user.service.UserInfoService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.lingfenglong.spzx.util.AuthContextUtil;
+import com.lingfenglong.spzx.util.constant.RedisConstant;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -82,21 +81,25 @@ public class UserInfoServiceImpl
 
     @Override
     public UserInfoVo getCurrentUserInfo() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String token = request.getHeader("token");
+        // HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        // String token = request.getHeader("token");
+        //
+        // String userInfoToken = stringRedisTemplate.opsForValue()
+        //         .get(RedisConstant.KEY_TOKEN + token);
+        //
+        // if (!StringUtils.hasText(userInfoToken)) {
+        //     throw new CommonGlobalRuntimeException(SysUserResultCode.LOGIN_AUTH);
+        // }
+        //
+        // UserInfo userInfo = JSON.parseObject(userInfoToken, UserInfo.class);
+        //
+        // UserInfoVo userInfoVo = new UserInfoVo();
+        // userInfoVo.setNickName(userInfo.getNickName());
+        // userInfoVo.setAvatar(userInfo.getAvatar());
 
-        String userInfoToken = stringRedisTemplate.opsForValue()
-                .get(RedisConstant.KEY_TOKEN + token);
-
-        if (!StringUtils.hasText(userInfoToken)) {
-            throw new CommonGlobalRuntimeException(SysUserResultCode.LOGIN_AUTH);
-        }
-
-        UserInfo userInfo = JSON.parseObject(userInfoToken, UserInfo.class);
-
+        UserInfo userInfo = AuthContextUtil.getUserInfo();
         UserInfoVo userInfoVo = new UserInfoVo();
-        userInfoVo.setNickName(userInfo.getNickName());
-        userInfoVo.setAvatar(userInfo.getAvatar());
+        BeanUtils.copyProperties(userInfo, userInfoVo);
 
         return userInfoVo;
     }

@@ -95,7 +95,7 @@ public class SysUserServiceImpl implements SysUserService {
         //return JSON.parseObject(json, SysUser.class);
 
         // 直接从ThreadLocal中获取
-        return AuthContextUtil.get();
+        return AuthContextUtil.getSysUser();
     }
 
     @Override
@@ -149,7 +149,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysMenuVo> findMenusByUserId() {
-        List<SysMenu> menus = sysUserMapper.findMenusByUserId(AuthContextUtil.get().getId());
+        List<SysMenu> menus = sysUserMapper.findMenusByUserId(AuthContextUtil.getSysUser().getId());
         List<SysMenu> menuList = MenuUtil.builder()
                 .setMenuList(menus)
                 .buildMenuTree();

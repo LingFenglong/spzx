@@ -1,4 +1,4 @@
-package com.lingfenglong.spzx.service.user.constant;
+package com.lingfenglong.spzx.util.constant;
 
 public class RedisConstant {
     public static final String KEY_PHONE_CODE = "phone_code:";

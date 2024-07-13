@@ -1,8 +1,15 @@
 server:
   port: 8500
+
+
 spring:
+  main:
+    web-application-type: reactive
   application:
     name: spzx-server-gateway
+  data:
+    redis:
+      url: redis://147258369@192.168.144.132:6379
   cloud:
     nacos:
       discovery:
@@ -31,3 +38,6 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/*/user/**
+logging:
+  level:
+    web: trace
