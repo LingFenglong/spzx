@@ -25,6 +25,7 @@
         <module>spzx-service/service-order</module>
         <module>spzx-service-client</module>
         <module>spzx-server-gateway</module>
+
     </modules>
 
     <properties>

@@ -39,7 +39,7 @@ public class UserInfoServiceImpl
     public void register(UserRegisterDto userRegisterDto) {
         String code = stringRedisTemplate
                 .opsForValue()
-                .get(RedisConstant.KEY_PHONE_CODE + userRegisterDto.getUsername());
+                .get(RedisConstant.KEY_USER_PHONE_CODE + userRegisterDto.getUsername());
 
         if (!StringUtils.hasText(code) || !code.equals(userRegisterDto.getCode())) {
             throw new RuntimeException("验证码不正确！");
@@ -55,7 +55,7 @@ public class UserInfoServiceImpl
         save(userInfo);
 
         stringRedisTemplate
-                .delete(RedisConstant.KEY_PHONE_CODE + userRegisterDto.getUsername());
+                .delete(RedisConstant.KEY_USER_PHONE_CODE + userRegisterDto.getUsername());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UserInfoServiceImpl
         String token = UUID.randomUUID().toString();
 
         stringRedisTemplate.opsForValue()
-                .set(RedisConstant.KEY_TOKEN + token, JSON.toJSONString(userInfo), 7, TimeUnit.DAYS);
+                .set(RedisConstant.KEY_USER_TOKEN + token, JSON.toJSONString(userInfo), 7, TimeUnit.DAYS);
         return token;
     }
 
@@ -85,7 +85,7 @@ public class UserInfoServiceImpl
         // String token = request.getHeader("token");
         //
         // String userInfoToken = stringRedisTemplate.opsForValue()
-        //         .get(RedisConstant.KEY_TOKEN + token);
+        //         .get(RedisConstant.KEY_USER_TOKEN + token);
         //
         // if (!StringUtils.hasText(userInfoToken)) {
         //     throw new CommonGlobalRuntimeException(SysUserResultCode.LOGIN_AUTH);

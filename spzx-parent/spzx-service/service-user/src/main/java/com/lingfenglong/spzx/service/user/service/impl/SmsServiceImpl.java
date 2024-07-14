@@ -22,7 +22,7 @@ public class SmsServiceImpl {
         String code = RandomStringUtils.randomNumeric(4);
         stringRedisTemplate
                 .opsForValue()
-                .set(RedisConstant.KEY_PHONE_CODE + phone, code, 15, TimeUnit.MINUTES);
+                .set(RedisConstant.KEY_USER_PHONE_CODE + phone, code, 15, TimeUnit.MINUTES);
 
         sendCodeMessage(code);
     }

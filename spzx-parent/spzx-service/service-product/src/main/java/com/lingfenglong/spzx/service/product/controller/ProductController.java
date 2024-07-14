@@ -1,10 +1,7 @@
 package com.lingfenglong.spzx.service.product.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.h5.ProductSkuDto;
-import com.lingfenglong.spzx.model.dto.product.ProductDto;
-import com.lingfenglong.spzx.model.entity.product.Product;
 import com.lingfenglong.spzx.model.entity.product.ProductSku;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
@@ -17,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Tag(name = "产品接口")
 @RestController
@@ -48,5 +43,11 @@ public class ProductController {
         return Result.build(
                 productSkuServiceImpl.getProductSkuPage(pageNum, pageSize, productSkuDto),
                 CommonResultCode.SUCCESS);
+    }
+    
+    @GetMapping("/getBySkuId/{skuId}")
+    public Result<ProductSku> getBySkuId(@PathVariable("skuId") Long skuId) {
+        ProductSku productSku = productSkuServiceImpl.getBySkuId(skuId);
+        return Result.build(productSku, CommonResultCode.SUCCESS);
     }
 }

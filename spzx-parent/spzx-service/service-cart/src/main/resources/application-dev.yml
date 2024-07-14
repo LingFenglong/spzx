@@ -1,0 +1,13 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: cart-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.144.132:8848
+  data:
+    redis:
+      url: redis://147258369@192.168.144.132:6379

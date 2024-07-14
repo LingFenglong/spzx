@@ -38,7 +38,7 @@ public class UserLoginAuthInterceptor implements HandlerInterceptor {
         }
 
         UserInfo userInfo = Optional
-                .ofNullable((redisTemplate.opsForValue().get(RedisConstant.KEY_TOKEN + token)))
+                .ofNullable((redisTemplate.opsForValue().get(RedisConstant.KEY_USER_TOKEN + token)))
                 .orElseThrow(() -> new CommonGlobalRuntimeException(SysUserResultCode.LOGIN_AUTH))
                 .toJavaObject(UserInfo.class);
 

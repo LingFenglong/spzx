@@ -73,7 +73,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             token = tokens.get(0);
         }
 
-        return Optional.ofNullable(redisTemplate.opsForValue().get(RedisConstant.KEY_TOKEN + token))
+        return Optional.ofNullable(redisTemplate.opsForValue().get(RedisConstant.KEY_USER_TOKEN + token))
                 .orElseThrow(() -> new CommonGlobalRuntimeException(SysUserResultCode.LOGIN_AUTH))
                 .toJavaObject(UserInfo.class);
     }

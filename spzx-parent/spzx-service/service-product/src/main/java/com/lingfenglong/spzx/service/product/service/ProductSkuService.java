@@ -15,4 +15,6 @@ public interface ProductSkuService extends IService<ProductSku> {
     PageInfo<ProductSku> getProductSkuPage(int pageNum, int pageSize, ProductSkuDto productSkuDto);
 
     List<ProductSku> getAllByProductId(Long productId);
+
+    ProductSku getBySkuId(Long skuId);
 }

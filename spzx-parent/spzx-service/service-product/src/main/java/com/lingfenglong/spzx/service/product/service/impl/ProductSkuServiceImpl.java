@@ -78,4 +78,11 @@ public class ProductSkuServiceImpl
                 .eq(ProductSku::getProductId, productId);
         return baseMapper.selectList(wrapper);
     }
+
+    @Override
+    public ProductSku getBySkuId(Long skuId) {
+        LambdaQueryWrapper<ProductSku> wrapper = new LambdaQueryWrapper<ProductSku>()
+                .eq(ProductSku::getId, skuId);
+        return baseMapper.selectOne(wrapper);
+    }
 }
