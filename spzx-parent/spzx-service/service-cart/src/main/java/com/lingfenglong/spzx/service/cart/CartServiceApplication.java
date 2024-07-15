@@ -1,7 +1,6 @@
 package com.lingfenglong.spzx.service.cart;
 
 import com.lingfenglong.spzx.common.annotation.EnableCommonModule;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

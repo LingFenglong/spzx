@@ -6,6 +6,7 @@ import com.lingfenglong.spzx.common.config.SecurityConfig;
 import com.lingfenglong.spzx.common.config.WebMvcConfiguration;
 import com.lingfenglong.spzx.common.exception.CommonGlobalRuntimeException;
 import com.lingfenglong.spzx.common.exception.ExceptionController;
+import com.lingfenglong.spzx.common.feign.UserTokenFeignInterceptor;
 import com.lingfenglong.spzx.common.interceptor.UserLoginAuthInterceptor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;

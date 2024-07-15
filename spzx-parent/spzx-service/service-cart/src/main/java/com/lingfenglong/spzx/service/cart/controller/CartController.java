@@ -59,4 +59,10 @@ public class CartController {
         cartServiceImpl.clearCart();
         return Result.build(null, CommonResultCode.SUCCESS);
     }
+
+    @GetMapping("/auth/getAllCkecked")
+    public Result<List<CartInfo>> getAllChecked() {
+        List<CartInfo> cartInfoList = cartServiceImpl.getAllChecked();
+        return Result.build(cartInfoList, CommonResultCode.SUCCESS);
+    }
 }

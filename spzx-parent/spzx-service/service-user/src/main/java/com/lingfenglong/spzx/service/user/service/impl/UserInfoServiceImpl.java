@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lingfenglong.spzx.common.exception.CommonGlobalRuntimeException;
 import com.lingfenglong.spzx.model.dto.h5.UserLoginDto;
 import com.lingfenglong.spzx.model.dto.h5.UserRegisterDto;
+import com.lingfenglong.spzx.model.entity.user.UserAddress;
 import com.lingfenglong.spzx.model.entity.user.UserInfo;
 import com.lingfenglong.spzx.model.vo.common.SysUserResultCode;
 import com.lingfenglong.spzx.model.vo.h5.UserInfoVo;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 

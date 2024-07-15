@@ -34,14 +34,21 @@ spring:
           uri: lb://product-service
           predicates:
             - Path=/*/product/**
+              
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/*/user/**
+
         - id: cart-service
           uri: lb://cart-service
           predicates:
             - Path=/api/order/cart/**
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/orderInfo/**
 logging:
   level:
     web: trace

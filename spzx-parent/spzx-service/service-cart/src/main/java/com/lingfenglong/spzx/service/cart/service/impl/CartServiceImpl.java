@@ -109,4 +109,15 @@ public class CartServiceImpl implements CartInfoService {
         Long userId = AuthContextUtil.getUserInfo().getId();
         redisTemplate.delete(RedisConstant.KEY_USER_CART + userId);
     }
+
+    @Override
+    public List<CartInfo> getAllChecked() {
+        return redisTemplate.opsForHash()
+                .values(RedisConstant.KEY_USER_CART + AuthContextUtil.getUserInfo().getId())
+                .stream()
+                .map(cartInfoObj -> JSON.parseObject(cartInfoObj.toString(), CartInfo.class))
+                .filter(cartInfo -> cartInfo.getIsChecked() == 1)
+                .sorted(Comparator.comparing(CartInfo::getCreateTime).reversed())
+                .toList();
+    }
 }
