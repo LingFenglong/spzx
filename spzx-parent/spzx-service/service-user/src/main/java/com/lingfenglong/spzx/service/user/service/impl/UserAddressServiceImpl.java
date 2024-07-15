@@ -21,4 +21,9 @@ public class UserAddressServiceImpl
                 .eq(UserAddress::getUserId, AuthContextUtil.getUserInfo().getId());
         return baseMapper.selectList(wrapper);
     }
+
+    @Override
+    public UserAddress getUserAddress(Long id) {
+        return baseMapper.selectById(id);
+    }
 }

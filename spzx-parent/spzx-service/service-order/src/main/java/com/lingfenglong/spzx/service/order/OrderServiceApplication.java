@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.lingfenglong.spzx.feign.cart")
+@EnableFeignClients(basePackages = "com.lingfenglong.spzx.feign")
 @EnableCommonModule
 @EnableUserTokenFeignInterceptor
 @MapperScan(basePackages = "com.lingfenglong.spzx.service.order.mapper")

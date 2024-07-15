@@ -120,4 +120,12 @@ public class CartServiceImpl implements CartInfoService {
                 .sorted(Comparator.comparing(CartInfo::getCreateTime).reversed())
                 .toList();
     }
+
+    @Override
+    public void deleteChecked() {
+        getAllChecked().forEach(cartInfo ->
+                redisTemplate.opsForHash()
+                        .delete(RedisConstant.KEY_USER_CART + AuthContextUtil.getUserInfo().getId(), cartInfo.getSkuId().toString())
+        );
+    }
 }

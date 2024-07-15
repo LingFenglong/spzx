@@ -7,6 +7,7 @@ import com.lingfenglong.spzx.service.user.service.impl.UserAddressServiceImpl;
 import com.lingfenglong.spzx.service.user.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +27,11 @@ public class UserAddressController {
     public Result<List<UserAddress>> findUserAddressList() {
         List<UserAddress> userAddressList = userAddressServiceImpl.findUserAddressList();
         return Result.build(userAddressList, CommonResultCode.SUCCESS);
+    }
+    
+    @GetMapping("/getUserAddress/{id}")
+    public Result<UserAddress> getUserAddress(@PathVariable("id") Long id) {
+        UserAddress userAddress = userAddressServiceImpl.getUserAddress(id);
+        return Result.build(userAddress, CommonResultCode.SUCCESS);
     }
 }
