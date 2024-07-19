@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.h5.ProductSkuDto;
+import com.lingfenglong.spzx.model.dto.product.SkuSaleDto;
 import com.lingfenglong.spzx.model.entity.product.Product;
 import com.lingfenglong.spzx.model.entity.product.ProductSku;
 
@@ -17,4 +18,6 @@ public interface ProductSkuService extends IService<ProductSku> {
     List<ProductSku> getAllByProductId(Long productId);
 
     ProductSku getBySkuId(Long skuId);
+
+    void updateSkuSaleNum(List<SkuSaleDto> skuSaleDtoList);
 }

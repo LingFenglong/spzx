@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>支付页面</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.7.2/axios.js"></script>
+  <script>
+      function pay() {
+          console.log('支付成功！')
+          // 调用回调方法
+
+          axios.get('http://192.168.144.132:8500/api/order/alipay/callback/notify')
+      }
+  </script>
+</head>
+<body>
+<div class="title">
+  <h1>支付商品</h1>
+</div>
+
+<div th:if="${paymentInfo != null}" class="content-center-m">
+  <span th:text="'订单编号：' + ${paymentInfo.getOrderNo()}"/>
+  <span th:text="'详细信息：' + ${paymentInfo.getContent()}"/>
+  <span th:text="'总金额：' + ${paymentInfo.getAmount()}"/>
+</div>
+
+<div>
+  <button onclick="pay()" class="ant-radio-button-wrapper">立即支付</button>
+</div>
+</body>
+</html>

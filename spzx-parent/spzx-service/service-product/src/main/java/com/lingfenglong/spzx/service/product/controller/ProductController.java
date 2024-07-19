@@ -2,6 +2,7 @@ package com.lingfenglong.spzx.service.product.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.h5.ProductSkuDto;
+import com.lingfenglong.spzx.model.dto.product.SkuSaleDto;
 import com.lingfenglong.spzx.model.entity.product.ProductSku;
 import com.lingfenglong.spzx.model.vo.common.CommonResultCode;
 import com.lingfenglong.spzx.model.vo.common.Result;
@@ -10,10 +11,9 @@ import com.lingfenglong.spzx.service.product.service.impl.ProductServiceImpl;
 import com.lingfenglong.spzx.service.product.service.impl.ProductSkuServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "产品接口")
 @RestController
@@ -49,5 +49,11 @@ public class ProductController {
     public Result<ProductSku> getBySkuId(@PathVariable("skuId") Long skuId) {
         ProductSku productSku = productSkuServiceImpl.getBySkuId(skuId);
         return Result.build(productSku, CommonResultCode.SUCCESS);
+    }
+
+    @PostMapping("/updateSkuSaleNum")
+    public Result<Boolean> updateSkuSaleNum(@RequestBody List<SkuSaleDto> skuSaleDtoList) {
+        productSkuServiceImpl.updateSkuSaleNum(skuSaleDtoList);
+        return Result.build(Boolean.TRUE, CommonResultCode.SUCCESS);
     }
 }

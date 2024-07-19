@@ -25,7 +25,3 @@ mybatis-plus:
   mapper-locations: classpath:/com/lingfenglong/spzx/model/entity/*/*.xml
   config-location: classpath:/mybatis-config.xml
   type-aliases-package: com.lingfenglong.spzx.model.entity
-logging:
-  level:
-    web: trace
-    sql: trace

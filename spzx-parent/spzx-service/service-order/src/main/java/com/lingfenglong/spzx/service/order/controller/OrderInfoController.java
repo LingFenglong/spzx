@@ -1,6 +1,5 @@
 package com.lingfenglong.spzx.service.order.controller;
 
-import cn.hutool.db.Page;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.h5.OrderInfoDto;
 import com.lingfenglong.spzx.model.entity.order.OrderInfo;
@@ -55,5 +54,11 @@ public class OrderInfoController {
             Integer orderStatus) {
         PageInfo<OrderInfo> orderInfoPage = orderServiceImpl.getOrderInfoPage(pageNum, pageSize, orderStatus);
         return Result.build(orderInfoPage, CommonResultCode.SUCCESS);
+    }
+    
+    @GetMapping("/auth/getOrderInfoByOrderNo/{orderNo}")
+    public Result<OrderInfo> getOrderInfoByOrderNo(@PathVariable("orderNo") String orderNo) {
+        OrderInfo orderInfo = orderServiceImpl.getOrderInfoByOrderNo(orderNo);
+        return Result.build(orderInfo, CommonResultCode.SUCCESS);
     }
 }

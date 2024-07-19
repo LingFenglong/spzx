@@ -147,6 +147,20 @@ public class OrderServiceImpl
         return new PageInfo<>(orderInfoList);
     }
 
+    @Override
+    public OrderInfo getOrderInfoByOrderNo(String orderNo) {
+        LambdaQueryWrapper<OrderInfo> wrapper = new LambdaQueryWrapper<OrderInfo>()
+                .eq(OrderInfo::getOrderNo, orderNo);
+        OrderInfo orderInfo = baseMapper.selectOne(wrapper);
+
+        List<OrderItem> orderItemList = orderItemMapper.selectList(
+                new LambdaQueryWrapper<OrderItem>()
+                        .eq(OrderItem::getOrderId, orderInfo.getId())
+        );
+        orderInfo.setOrderItemList(orderItemList);
+        return orderInfo;
+    }
+
     private void checkStockEnough(List<OrderItem> orderItemList) {
         orderItemList.forEach(orderItem -> {
             // 检查库存是否足够

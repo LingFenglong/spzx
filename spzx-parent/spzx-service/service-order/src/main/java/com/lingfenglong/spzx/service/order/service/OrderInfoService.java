@@ -16,4 +16,6 @@ public interface OrderInfoService extends IService<OrderInfo> {
     TradeVo buy(Long skuId);
 
     PageInfo<OrderInfo> getOrderInfoPage(Integer pageNum, Integer pageSize, Integer orderStatus);
+
+    OrderInfo getOrderInfoByOrderNo(String orderNo);
 }

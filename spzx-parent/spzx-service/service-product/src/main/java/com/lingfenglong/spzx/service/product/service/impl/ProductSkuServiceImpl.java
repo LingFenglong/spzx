@@ -1,11 +1,13 @@
 package com.lingfenglong.spzx.service.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lingfenglong.spzx.model.dto.h5.ProductSkuDto;
+import com.lingfenglong.spzx.model.dto.product.SkuSaleDto;
 import com.lingfenglong.spzx.model.entity.product.Product;
 import com.lingfenglong.spzx.model.entity.product.ProductSku;
 import com.lingfenglong.spzx.service.product.mapper.ProductMapper;
@@ -84,5 +86,20 @@ public class ProductSkuServiceImpl
         LambdaQueryWrapper<ProductSku> wrapper = new LambdaQueryWrapper<ProductSku>()
                 .eq(ProductSku::getId, skuId);
         return baseMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public void updateSkuSaleNum(List<SkuSaleDto> skuSaleDtoList) {
+        if (!CollectionUtils.isEmpty(skuSaleDtoList)) {
+            skuSaleDtoList.forEach(this::updateSale);
+        }
+    }
+
+    private void updateSale(SkuSaleDto skuSaleDto) {
+        LambdaUpdateWrapper<ProductSku> wrapper = new LambdaUpdateWrapper<ProductSku>()
+                .eq(ProductSku::getId, skuSaleDto.getSkuId())
+                .set(ProductSku::getSaleNum, skuSaleDto.getNum());
+
+        baseMapper.update(wrapper);
     }
 }

@@ -49,6 +49,11 @@ spring:
           uri: lb://order-service
           predicates:
             - Path=/api/order/orderInfo/**
+
+        - id: pay-service
+          uri: lb://pay-service
+          predicates:
+            - Path=/api/order/alipay/**
 logging:
   level:
     web: trace
